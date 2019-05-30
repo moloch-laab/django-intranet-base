@@ -4,10 +4,13 @@
     <title>Cartolas Gremios</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="css/datatables.min.css"/>
+
+    {% load static %}
+    
+    <link rel="stylesheet" type="text/css" href="{% static 'core/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'core/css/datatables.min.css' %}"/>
     <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="css/main.css"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'core/css/main.css' %}"/>
     <script src="https://kit.fontawesome.com/3bd2032991.js"></script>
   </head>
   <body>
@@ -50,85 +53,8 @@
     </header>
     
     <div role="main" class="container">
-      <div class="row">
-        <div class="col">
-          <div class="table-row">
-
-            <table id="tbl-cartolas" class="table table-bordered table-hover display">
-              <thead class="thead-dark">
-                <tr>
-                  <th>Archivo</th>
-                  <th>Fecha</th>
-                  <th style="width: 80px;">Descargar</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>Row 1 Data 1</td>
-                  <td>Row 1 Data 2</td>
-                  <td class="text-center"><i class="fas fa-file-download"></i></td>
-                </tr>
-                <tr>
-                  <td>Prueba</td>
-                  <td>Row 2 Data 2</td>
-                  <td class="text-center"><i class="fas fa-file-download"></i></td>
-                </tr>
-                <tr>
-                  <td>Row 2 Data 1</td>
-                  <td>Row 2 Data 2</td>
-                  <td class="text-center"><i class="fas fa-file-download"></i></td>
-                </tr>
-                <tr>
-                  <td>Row 2 Data 1</td>
-                  <td>Row 2 Data 2</td>
-                  <td class="text-center"><i class="fas fa-file-download"></i></td>
-                </tr>
-                <tr>
-                  <td>Row 2 Data 1</td>
-                  <td>Row 2 Data 2</td>
-                  <td class="text-center"><i class="fas fa-file-download"></i></td>
-                </tr>
-                <tr>
-                  <td>Row 2 Data 1</td>
-                  <td>Row 2 Data 2</td>
-                  <td class="text-center"><i class="fas fa-file-download"></i></td>
-                </tr>
-                <tr>
-                  <td>Row 2 Data 1</td>
-                  <td>Row 2 Data 2</td>
-                  <td class="text-center"><i class="fas fa-file-download"></i></td>
-                </tr>
-                <tr>
-                  <td>Row 2 Data 1</td>
-                  <td>Row 2 Data 2</td>
-                  <td class="text-center"><i class="fas fa-file-download"></i></td>
-                </tr>
-                <tr>
-                  <td>Row 2 Data 1</td>
-                  <td>Row 2 Data 2</td>
-                  <td class="text-center"><i class="fas fa-file-download"></i></td>
-                </tr>
-                <tr>
-                  <td>Row 2 Data 1</td>
-                  <td>Row 2 Data 2</td>
-                  <td class="text-center"><i class="fas fa-file-download"></i></td>
-                </tr>
-                <tr>
-                  <td>Row 2 Data 1</td>
-                  <td>Row 2 Data 2</td>
-                  <td class="text-center"><i class="fas fa-file-download"></i></td>
-                </tr>
-                <tr>
-                  <td>Row 2 Data 1</td>
-                  <td>Row 2 Data 2</td>
-                  <td class="text-center"><i class="fas fa-file-download"></i></td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-
-        </div><!-- .col -->
-      </div><!-- .row -->
+      <!-- Content -->
+      {% block content %}{% endblock %}
     </div><!-- main -->
 
     <footer class="footer mt-auto py-3 bg-secondary">
@@ -142,25 +68,11 @@
     </footer>
     
 
-    <script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
-    <script type="text/javascript" src="js/popper.min.js"></script>
-    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="{% static 'core/js/jquery-3.4.1.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'core/js/popper.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'core/js/bootstrap.min.js' %}"></script>
 
     <!-- Additional Javascript -->
-    <script type="text/javascript" src="js/datatables.min.js"></script>
-    <script>
-      $(document).ready( function (){
-        $('#tbl-cartolas').DataTable({
-          "language": {
-            "url": "https://cdn.datatables.net/plug-ins/1.10.19/i18n/Spanish.json"
-          },
-          "columnDefs": [{
-            "targets": 2,
-            "orderable": false
-          }]
-        });
-      });
-    </script>
-
+    {% block additional_javascript %}{% endblock %}
   </body>
 </html>
