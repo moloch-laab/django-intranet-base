@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="es">
   <head>
-    <title>Cartolas Gremios</title>
+    <title>{% block title %}{% endblock title %} - Sistema de Publicaciones Hípicas</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -14,7 +14,7 @@
     {% block additional_css %}{% endblock %}
     <script src="https://kit.fontawesome.com/3bd2032991.js"></script>
   </head>
-  <body>
+  <body class="{% block body_classes %}{% endblock %}">
     <header>
       <div class="jumbotron jumbotron-fluid text-light bg-primary">
         <div class="container">

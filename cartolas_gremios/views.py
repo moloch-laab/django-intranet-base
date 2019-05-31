@@ -1,7 +1,6 @@
+from django.views.generic.list import ListView
 from django.shortcuts import render
 from .models import Document
 
-
-def index(request):
-    documents = Document.objects.all()
-    return render(request, "cartolas_gremios/index.html", {'documents':documents})
+class CartolasListView(ListView):
+    model = Document
