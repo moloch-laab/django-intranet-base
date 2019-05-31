@@ -38,7 +38,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'core',
-    'login',
     'cartolas_gremios.apps.CartolasGremiosConfig',
 ]
 
