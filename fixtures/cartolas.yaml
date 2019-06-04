@@ -1,0 +1,10 @@
+- model: myapp.person
+  pk: 1
+  fields:
+    title: John
+    path: path
+- model: myapp.person
+  pk: 2
+  fields:
+    title: John
+    path: path

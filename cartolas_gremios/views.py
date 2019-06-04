@@ -1,6 +1,5 @@
 from django.views.generic.list import ListView
-from django.shortcuts import render
-from .models import Document
+from .models import Cartola
 
 class CartolasListView(ListView):
-    model = Document
+    model = Cartola
