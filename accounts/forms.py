@@ -58,8 +58,9 @@ class UserAdminChangeForm(forms.ModelForm):
 
 
 class LoginForm(forms.Form):
-    rut    = forms.CharField(max_length = 20, label='rut')
+    rut = forms.CharField(max_length = 20, label='rut', widget=forms.TextInput(attrs={'class': 'form-control'}))
     password = forms.CharField(widget=forms.PasswordInput)
+    password.widget.attrs.update({'class': 'form-control'})
 
 
 

@@ -28,6 +28,11 @@ class LoginView(FormView):
                 return redirect("/")
         return super(LoginView, self).form_invalid(form)
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = 'Login'
+        return context
+
 
 class RegisterView(CreateView):
     form_class = RegisterForm
