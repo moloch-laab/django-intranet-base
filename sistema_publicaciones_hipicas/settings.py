@@ -38,8 +38,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # our apps
     'core',
-    'cartolas_gremios.apps.CartolasGremiosConfig',
+    'cartolas_gremios',
+    #third party apps
+    'menu_generator',
 ]
 
 AUTH_USER_MODEL = 'accounts.User'
@@ -141,3 +144,4 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 # Auth redirects
 LOGIN_REDIRECT_URL = 'home'
+LOGOUT_REDIRECT_URL = 'home'
