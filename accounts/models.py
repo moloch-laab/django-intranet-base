@@ -9,9 +9,7 @@ class UserManager(BaseUserManager):
             raise ValueError("El usuario debe tener RUT")
         if not password:
             raise ValueError("El usuario debe tener contraseña")
-        user_obj = self.model(
-            rut = rut
-        )
+        user_obj = self.model(rut = rut)
         user_obj.full_name = full_name
         user_obj.email = self.normalize_email(email)
         user_obj.set_password(password) # change user password
@@ -70,11 +68,11 @@ class User(AbstractBaseUser, PermissionsMixin):
     def get_short_name(self):
         return self.rut
 
-    def has_perm(self, perm, obj=None):
-        return True
+    # def has_perm(self, perm, obj=None):
+    #     return True
 
-    def has_module_perms(self, app_label):
-        return True
+    # def has_module_perms(self, app_label):
+    #     return True
 
     @property
     def is_staff(self):

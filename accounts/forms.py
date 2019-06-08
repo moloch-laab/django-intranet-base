@@ -46,7 +46,13 @@ class UserAdminChangeForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ('rut', 'full_name', 'email', 'password', 'active', 'superuser')
+        fields = ('__all__')
+
+    def __init__(self, *args, **kwargs):
+        super(UserAdminChangeForm, self).__init__(*args, **kwargs)
+        f = self.fields.get('user_permissions', None)
+        if f is not None:
+            f.queryset = f.queryset.select_related('content_type')
 
     def clean_password(self):
         # Regardless of what the user provides, return the initial value.
