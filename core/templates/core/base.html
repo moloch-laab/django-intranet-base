@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="es">
   <head>
-    <title>{{ title }} - Sistema de Publicaciones Hípicas</title>
+    <title>{% block title %}{% endblock %} - Sistema de Publicaciones Hípicas</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     {% load static %}
@@ -21,7 +21,9 @@
         </div><!-- .container -->
       </div><!-- .jumbotron -->
 
+      <!-- NAVBAR -->
       {% include "core/includes/navbar.html" %}
+      
     </header>
     
     <div role="main" class="container">

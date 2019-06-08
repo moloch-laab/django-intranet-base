@@ -20,7 +20,7 @@ MENUS = {
             "validators": ["menu_generator.validators.is_anonymous"],
         },
         {
-            "name": "{{ user.get_username }}",
+            "name": "User",
             "icon": "fa-user",
             "url": "#",
             "validators": ["menu_generator.validators.is_authenticated"],

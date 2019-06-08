@@ -46,7 +46,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     full_name   = models.CharField(max_length=255, blank=True, null=True)
     active      = models.BooleanField(default=True) # can login 
     staff       = models.BooleanField(default=False) # staff user non superuser
-    superuser       = models.BooleanField(default=False) # superuser 
+    superuser   = models.BooleanField(default=False) # superuser 
     timestamp   = models.DateTimeField(auto_now_add=True)
     # confirm     = models.BooleanField(default=False)
     # confirmed_date     = models.DateTimeField(default=False)

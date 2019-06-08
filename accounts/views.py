@@ -4,13 +4,18 @@ from django.http import HttpResponse
 from django.shortcuts import render,redirect
 from django.utils.http import is_safe_url
 
-
+from core.mixins import NextUrlMixin, RequestFormAttachMixin
 from .forms import LoginForm, RegisterForm
 
-class LoginView(FormView):
+class LoginView(NextUrlMixin, RequestFormAttachMixin, FormView):
     form_class = LoginForm
     success_url = '/'
     template_name = 'accounts/login.html'
+    default_next = '/'
+
+    # def form_valid(self, form):
+    #     next_path = self.get_next_url()
+    #     return redirect(next_path)
 
     def form_valid(self, form):
         request = self.request
@@ -28,10 +33,6 @@ class LoginView(FormView):
                 return redirect("/")
         return super(LoginView, self).form_invalid(form)
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["title"] = 'Login'
-        return context
 
 
 class RegisterView(CreateView):
