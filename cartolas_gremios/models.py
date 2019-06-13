@@ -1,6 +1,7 @@
 from django.db import models
-from utils import ls
+from core.utils import ls
 import os, shutil
+import datetime as dt
 
 class CartolaManager():
     def create_cartola(self, rut, desde, hasta, path):
@@ -11,10 +12,9 @@ class CartolaManager():
         cartola_obj.path = path
         cartola_obj.save()
 
-    def create_from_files(self, path_in="files/cartolas_gremios/", path_out = "core/static/cartolas_gremios/"):
+    def create_from_files(self, path_in="files/cartolas_gremios/", path_out = "core/media/cartolas_gremios/"):
         try:
-            files = self.ls(path_in)
-            file_array = []
+            files = ls(path_in)
             for f in files:
                 # Obtenemos rut, desde y hasta del nombre de cada archivo
                 fs = f
@@ -23,7 +23,6 @@ class CartolaManager():
                 desde = fs[:fs.find("_")]
                 fs = fs[fs.find("_") + 1:]
                 hasta = fs[:fs.find(".")]
-
                 # Definimos los direcorios de los archivos de entrada y salida
                 file_preproc = path_in + f
                 file_proc = path_out + rut + "/" + f
@@ -33,19 +32,24 @@ class CartolaManager():
                     os.stat(path_out + rut)
                 except:
                     os.mkdir(path_out + rut)
+                # breakpoint()
+                # Convertimos las cadenas en fechas
+                desde_dt = dt.datetime.strptime(desde, '%Y%m%d')
+                hasta_dt = dt.datetime.strptime(hasta, '%Y%m%d')
 
                 # Guardamos los datos en la base de datos
-                cartola = self.create_cartola(rut, desde, hasta, file_proc)
-
-                # Movemos el archivo a la carpeta static
+                cartola = self.create_cartola(rut, desde_dt, hasta_dt, file_proc)
+                
+                # Movemos el archivo a la carpeta media
                 shutil.move(file_preproc, file_proc)
-
-                # Verificamos si el archivo fue movido y llenamos el array para retornar
+                # breakpoint()
+                # Verificamos si el archivo fue movido
                 if os.path.exists(file_proc):
-                    file_array.append(file_proc)
+                    pass
                 else:
                     return False
-            return file_array
+            # breakpoint()
+            return True
         except:
             return False
         
