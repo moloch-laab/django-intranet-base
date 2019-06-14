@@ -4,11 +4,12 @@ import os, shutil
 import datetime as dt
 
 class CartolaManager():
-    def create_cartola(self, rut, desde, hasta, path):
+    def create_cartola(self, rut, desde, hasta, pdf_file, path):
         cartola_obj = Cartola()
         cartola_obj.rut = rut
         cartola_obj.desde = desde
         cartola_obj.hasta = hasta
+        cartola_obj.pdf_file.save('new', pdf_file)
         cartola_obj.path = path
         cartola_obj.save()
 
@@ -38,7 +39,7 @@ class CartolaManager():
                 hasta_dt = dt.datetime.strptime(hasta, '%Y%m%d')
 
                 # Guardamos los datos en la base de datos
-                cartola = self.create_cartola(rut, desde_dt, hasta_dt, file_proc)
+                cartola = self.create_cartola(rut, desde_dt, hasta_dt, file_preproc, file_proc)
                 
                 # Movemos el archivo a la carpeta media
                 shutil.move(file_preproc, file_proc)
@@ -60,6 +61,7 @@ class Cartola(models.Model):
     desde = models.DateTimeField('Movimientos desde', auto_now=False, auto_now_add=False)
     hasta = models.DateTimeField("Movimientos hasta", auto_now=False, auto_now_add=False)
     pub_date = models.DateTimeField('date published',auto_now_add=True)
+    pdf_file = models.FileField("Archivo PDF de cartola", upload_to="core/media/cartolas_gremios/")
     path = models.CharField("Directorio de archivo de cartolas", null=True, max_length=200)
     
     
