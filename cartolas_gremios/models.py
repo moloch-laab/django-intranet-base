@@ -1,19 +1,21 @@
 from django.db import models
 from core.utils import ls
+from django.core.files import File
+from django.core.files.storage import FileSystemStorage
+from django.conf import settings
 import os, shutil
 import datetime as dt
 
 class CartolaManager():
-    def create_cartola(self, rut, desde, hasta, pdf_file, path):
+    def create_cartola(self, rut, desde, hasta, pdf_file, file_name):
         cartola_obj = Cartola()
         cartola_obj.rut = rut
         cartola_obj.desde = desde
         cartola_obj.hasta = hasta
-        cartola_obj.pdf_file.save('new', pdf_file)
-        cartola_obj.path = path
+        cartola_obj.pdf_file.save(pdf_file.name, pdf_file)
         cartola_obj.save()
 
-    def create_from_files(self, path_in="files/cartolas_gremios/", path_out = "core/media/cartolas_gremios/"):
+    def create_from_files(self, path_in="files/cartolas_gremios/"):
         try:
             files = ls(path_in)
             for f in files:
@@ -26,32 +28,18 @@ class CartolaManager():
                 hasta = fs[:fs.find(".")]
                 # Definimos los direcorios de los archivos de entrada y salida
                 file_preproc = path_in + f
-                file_proc = path_out + rut + "/" + f
-
-                # Creamos una carpeta para el rut del gremio si esta no existe
-                try:
-                    os.stat(path_out + rut)
-                except:
-                    os.mkdir(path_out + rut)
-                # breakpoint()
                 # Convertimos las cadenas en fechas
                 desde_dt = dt.datetime.strptime(desde, '%Y%m%d')
                 hasta_dt = dt.datetime.strptime(hasta, '%Y%m%d')
-
+                file_name = rut + "_" + desde + "_" + hasta + ".pdf"
+                # Agregamos el archivo
+                pdf_file = open(file_preproc, 'rb')
+                pdf_file = File(pdf_file)
                 # Guardamos los datos en la base de datos
-                cartola = self.create_cartola(rut, desde_dt, hasta_dt, file_preproc, file_proc)
-                
-                # Movemos el archivo a la carpeta media
-                shutil.move(file_preproc, file_proc)
-                # breakpoint()
-                # Verificamos si el archivo fue movido
-                if os.path.exists(file_proc):
-                    pass
-                else:
-                    return False
-            # breakpoint()
+                cartola = self.create_cartola(rut, desde_dt, hasta_dt, pdf_file, file_name)
             return True
-        except:
+        except Exception as e:
+            print(e)
             return False
         
 
@@ -61,8 +49,4 @@ class Cartola(models.Model):
     desde = models.DateTimeField('Movimientos desde', auto_now=False, auto_now_add=False)
     hasta = models.DateTimeField("Movimientos hasta", auto_now=False, auto_now_add=False)
     pub_date = models.DateTimeField('date published',auto_now_add=True)
-    pdf_file = models.FileField("Archivo PDF de cartola", upload_to="core/media/cartolas_gremios/")
-    path = models.CharField("Directorio de archivo de cartolas", null=True, max_length=200)
-    
-    
-
+    pdf_file = models.FileField("Archivo PDF de cartola", upload_to=settings.MEDIA_ROOT + "/cartolas_gremios", max_length=300)

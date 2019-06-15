@@ -9,7 +9,8 @@
       <table id="tbl-cartolas" class="table table-bordered table-hover display">
         <thead class="thead-dark">
           <tr>
-            <th>Archivo</th>
+            <th>Desde</th>
+            <th>Hasta</th>
             <th>Fecha</th>
             <th style="width: 80px;">Descargar</th>
           </tr>
@@ -17,9 +18,10 @@
         <tbody>
         {% for cartola in cartola_list  %}
           <tr>
-            <td>{{ cartola.title }}</td>
-            <td>{{ cartula.pub_date }}</td>
-            <td class="text-center"><a name="" id=""  href="{{ cartola.path }}" role="button"><i class="fas fa-file-download"></i></a></td>
+            <td>{{ cartola.desde.date }}</td>
+            <td>{{ cartola.hasta.date }}</td>
+            <td>{{ cartola.pub_date.date }}</td>
+            <td class="text-center"><a name="" id=""  href="{{ cartola.pdf_file.url }}" role="button"><i class="fas fa-file-download"></i></a></td>
           </tr>
         {% endfor %}
         </tbody>
@@ -39,7 +41,7 @@
         "url": "https://cdn.datatables.net/plug-ins/1.10.19/i18n/Spanish.json"
       },
       "columnDefs": [{
-        "targets": 2,
+        "targets": 3,
         "orderable": false
       }]
     });
