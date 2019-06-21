@@ -1,7 +1,13 @@
 {% extends "core/base.html" %}
+{% load static %}
 {% block title %}Iniciar Sesión{% endblock %}
+
+{% block body_classes %}login-page{% endblock %} 
+
+{% block additional_stylesheets %}<link rel="stylesheet" href="{% static 'core/plugins/iCheck/square/blue.css' %}">{% endblock %}
+
 {% block content %}
-<div class="row">
+{% comment %} <div class="row">
   <div class="col-md-10">
 
     <h1>Login</h1>
@@ -22,7 +28,69 @@
     </form>
 
   </div><!-- .col-md-10 -->
-</div><!-- .row -->
+</div><!-- .row --> {% endcomment %}
+
+<div class="login-box">
+  <div class="login-logo">
+    <a href="/"><b>Publicaciones Hípicas </b>Hipódromo Chile</a>
+  </div>
+  <!-- /.login-logo -->
+  <div class="card">
+    <div class="card-body login-card-body">
+      <p class="login-box-msg">Regístrese para comenzar su sesión</p>
+
+      <form method='POST'> {% csrf_token %}
+        <div class="form-group has-feedback">
+          <label for="id_rut"  class="col-form-label">Rut:</label>
+          {{ form.rut }}
+          {% comment %} <span class="fa fa-user form-control-feedback"></span> {% endcomment %}
+        </div>
+        <div class="form-group has-feedback">
+        <label for="id_password" class="col-form-label">Password:</label>
+          {{ form.password }}
+          {% comment %} <span class="fa fa-lock form-control-feedback"></span> {% endcomment %}
+        </div>
+        <div class="row">
+          <div class="col-8">
+            <div class="checkbox icheck">
+              <label>
+                <input type="checkbox"> Recuerdame
+              </label>
+            </div>
+          </div>
+          <!-- /.col -->
+          <div class="col-4">
+            <button type="submit" class="btn btn-primary btn-block btn-flat">Ingresar</button>
+          </div>
+          <!-- /.col -->
+        </div>
+      </form>
+
+      <p class="mb-1">
+        <a href="#">I forgot my password</a>
+      </p>
+    </div>
+    <!-- /.login-card-body -->
+  </div>
+</div>
+<!-- /.login-box -->
 
 
+
+
+
+
+{% endblock %}
+
+{% block additional_javascripts %}
+<script src="{% static 'core/plugins/iCheck/icheck.min.js' %}"></script>
+<script>
+  $(function () {
+    $('input').iCheck({
+      checkboxClass: 'icheckbox_square-blue',
+      radioClass   : 'iradio_square-blue',
+      increaseArea : '20%' // optional
+    })
+  })
+</script>
 {% endblock %}
