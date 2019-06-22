@@ -9,7 +9,7 @@ MENUS = {
                 {
                     "name": "Cartolas de movimientos",
                     "icon": "",
-                    "url": "/cartolas_gremios/",
+                    "url": "/gremios/cartolas",
                 },
             ],
         },
