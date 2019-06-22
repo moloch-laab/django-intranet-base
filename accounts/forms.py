@@ -2,6 +2,8 @@ from django import forms
 from django.contrib.auth import authenticate, login, get_user_model
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 
+from core.utils import validarRut
+
 
 User = get_user_model()
 
@@ -115,20 +117,48 @@ class LoginForm(forms.Form):
 class RegisterForm(forms.ModelForm):
     """A form for creating new users. Includes all the required
     fields, plus a repeated password."""
-    password1 = forms.CharField(label='Password', widget=forms.PasswordInput)
-    password2 = forms.CharField(label='Password confirmation', widget=forms.PasswordInput)
+    rut = forms.CharField(max_length = 20, label='Rut', widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': '11111111-1'}))
+    full_name = forms.CharField(max_length = 255, label='Nombre Completo', widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Juan Perez'}))
+    email = forms.EmailField(max_length = 255, label='Email', widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'jperez@email.com'}))
+    password1 = forms.CharField(label='Contraseña', widget=forms.PasswordInput)
+    password2 = forms.CharField(label='Confirmación de contraseña', widget=forms.PasswordInput)
+    password1.widget.attrs.update({'class': 'form-control', 'placeholder': 'Debe tener o 8 más caracteres alfanuméricos'})
+    password2.widget.attrs.update({'class': 'form-control', 'placeholder': 'Favor repita su contraseña'})
+    check = forms.BooleanField(label='Aceptar')
 
     class Meta:
         model = User
-        fields = ('rut', 'full_name', 'email',) #'full_name',)
+        fields = ('rut', 'full_name', 'email',)
 
     def clean_password2(self):
         # Check that the two password entries match
         password1 = self.cleaned_data.get("password1")
         password2 = self.cleaned_data.get("password2")
         if password1 and password2 and password1 != password2:
-            raise forms.ValidationError("Passwords don't match")
+            raise forms.ValidationError("las contraseñas no coinciden.")
+        # Check if password is over 8 characters
+        if len(password2) < 8:
+            raise forms.ValidationError("La contraseña debe tener 8 o más caracteres.")
+        # Check if password contains chars and numbers
+        if password2.isalpha() or password2.isdigit():
+            raise forms.ValidationError("La contraseña debe ser contener letras y números.")
+        # Check if password constains only spaces
+        # if isspace():
+        #      raise forms.ValidationError("Ingrese una contraseña válida.")
         return password2
+
+    def clean_rut(self):
+        rut = self.cleaned_data.get("rut")
+        if validarRut(rut):
+            return rut
+        else:
+            raise forms.ValidationError("Rut no válido")
+    
+    def clean_check(self):
+        check = self.changed_data.get("check")
+        if check == False:
+             raise forms.ValidationError("Debe aceptar los terminos y condiciones")
+        return check
 
     def save(self, commit=True):
         # Save the provided password in hashed format

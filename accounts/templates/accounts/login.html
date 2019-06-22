@@ -7,28 +7,6 @@
 {% block additional_stylesheets %}<link rel="stylesheet" href="{% static 'core/plugins/iCheck/square/blue.css' %}">{% endblock %}
 
 {% block content %}
-{% comment %} <div class="row">
-  <div class="col-md-10">
-
-    <h1>Login</h1>
-    <form method='POST'> {% csrf_token %}
-      <div class="form-group row">
-        <label for="id_rut"  class="col-sm-2 col-form-label">rut:</label>
-        <div class="col-sm-4">
-          {{ form.rut }}
-        </div>
-      </div>
-      <div class="form-group row">
-        <label for="id_password" class="col-sm-2 col-form-label">Password:</label>
-        <div class="col-sm-4">
-          {{ form.password }}
-        </div>
-      </div>
-      <button type='submit' class='btn btn-primary'>Ingresar</button>
-    </form>
-
-  </div><!-- .col-md-10 -->
-</div><!-- .row --> {% endcomment %}
 
 <div class="login-box">
   <div class="login-logo">
@@ -37,18 +15,16 @@
   <!-- /.login-logo -->
   <div class="card">
     <div class="card-body login-card-body">
-      <p class="login-box-msg">Regístrese para comenzar su sesión</p>
+      <p class="login-box-msg">Ingrese sus datos para comenzar su sesión</p>
 
       <form method='POST'> {% csrf_token %}
         <div class="form-group has-feedback">
           <label for="id_rut"  class="col-form-label">Rut:</label>
           {{ form.rut }}
-          {% comment %} <span class="fa fa-user form-control-feedback"></span> {% endcomment %}
         </div>
         <div class="form-group has-feedback">
         <label for="id_password" class="col-form-label">Password:</label>
           {{ form.password }}
-          {% comment %} <span class="fa fa-lock form-control-feedback"></span> {% endcomment %}
         </div>
         <div class="row">
           <div class="col-8">
@@ -67,7 +43,10 @@
       </form>
 
       <p class="mb-1">
-        <a href="#">I forgot my password</a>
+        <a href="#">Olvidé mi contraseña</a>
+      </p>
+      <p class="mb-1">
+        <a href="#">Regístrarse</a>
       </p>
     </div>
     <!-- /.login-card-body -->

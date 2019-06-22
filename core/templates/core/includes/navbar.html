@@ -9,15 +9,25 @@
       <a class="nav-link" data-widget="pushmenu" href="#"><i class="fa fa-bars"></i></a>
     </li>
     {% for item in navbar %}
-    <li class="nav-item d-none d-sm-inline-block">
-      <a href="{{ item.url }}" class="nav-link">{{ item.name }}</a>
+    <li class="nav-item {% if item.submenu %}dropdown{% else %}d-none d-sm-inline-block{% endif %}">
+      <a href="{{ item.url }}" {% if item.submenu %}data-toggle="dropdown" {% endif %}class="nav-link">{{ item.name }}</a>
+    {% if item.submenu %}
+      <div class="dropdown-menu">
+        {% for submenu in item.submenu %}
+        {% if forloop.counter > 1 %}<div class="dropdown-divider"></div>{% endif %}
+        <a href="{{ submenu.url }}" class="dropdown-item">
+          {{ submenu.name }}
+        </a>
+        {% endfor %}
+      </div>
+    {% endif %}
     </li>
     {% endfor %}
   </ul>
 
   <!-- Right navbar links -->
   <ul class="navbar-nav ml-auto">
-    <!-- Notifications Dropdown Menu -->
+    <!-- User Dropdown Menu -->
     {% if user.is_authenticated %}
     <li class="nav-item dropdown">
       <a class="nav-link" data-toggle="dropdown" href="#">
@@ -38,6 +48,11 @@
     <li class="nav-item">
       <a class="nav-link" href="/login/">
         Iniciar Sesión
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="/register/">
+        Registrarse
       </a>
     </li>
     {% endif %}
