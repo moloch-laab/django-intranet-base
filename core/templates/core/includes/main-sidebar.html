@@ -1,0 +1,55 @@
+{% load static %}
+{% load menu_generator %}
+<aside class="main-sidebar sidebar-dark-primary elevation-4">
+  <!-- Brand Logo -->
+  <a href="index3.html" class="brand-link">
+    <img src="{% static 'core/dist/img/hch_logo.jpg' %}" alt="Logo Hipódromo Chile" class="brand-image img-circle elevation-3"
+          style="opacity: .8">
+    <span class="brand-text font-weight-light">Hipódromo Chile</span>
+  </a>
+
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <!-- Sidebar user panel (optional) -->
+    <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+      {% comment %} <div class="image">
+        <img src="{% static 'core/dist/img/user2-160x160.jpg' %}" class="img-circle elevation-2" alt="User Image">
+      </div> {% endcomment %}
+      <div class="info">
+        <a href="#" class="d-block">{{ user.get_full_name }}</a>
+      </div>
+    </div>
+
+    <!-- Sidebar Menu -->
+    {% get_menu "MAIN_SIDEBAR" as main_sidebar %}
+    <nav class="mt-2">
+      <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+        {% for item in main_sidebar %}
+        <li class="nav-item{% if item.submenu %} has-treeview{% endif %}">
+          <a href="{{ item.url }}" class="nav-link">
+            <i class="nav-icon fa {{ item.icon }}"></i>
+            <p>
+              {{ item.name }}
+              {% if item.submenu %}<i class="right fa fa-angle-left"></i>{% endif %}
+            </p>
+          </a>
+          {% if item.submenu %}
+          <ul class="nav nav-treeview">
+          {% for menu in item.submenu %}
+            <li class="nav-item">
+              <a href="{{ menu.url }}" class="nav-link">
+                <i class="fa {{ menu.icon }} nav-icon"></i>
+                <p>{{ menu.name }}</p>
+              </a>
+            </li>
+          {% endfor %}
+          </ul>
+          {% endif %}
+        </li>
+        {% endfor %}
+      </ul>
+    </nav>
+    <!-- /.sidebar-menu -->
+  </div>
+  <!-- /.sidebar -->
+</aside>

@@ -1,6 +1,7 @@
 from django.urls import path
-from . import views
+from .views import CartolasListView, load_cartolas
 
-urlpatterns = [
-    path('', views.index, name='cartolas_gremios'),
-]
+cartolas_gremios_patterns = ([
+    path('', CartolasListView.as_view()),
+    path('load', load_cartolas),
+], 'cartolas_gremios')
