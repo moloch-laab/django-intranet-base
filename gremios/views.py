@@ -4,7 +4,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render
 from django.http import HttpResponse
 
-from .models import Cartola, CartolaManager
+from .models import Cartola, CartolaManager, RutGremioManager
 from core.decorators import group_required
 
 @method_decorator(group_required("Gremios"), name='dispatch')
@@ -13,6 +13,9 @@ class CartolasListView(LoginRequiredMixin, ListView):
 
 def load_cartolas(request):
     model = CartolaManager()
+    rut_gremios = RutGremioManager()
+    
+    new_ruts = rut_gremios.create_from_file()
     resultado = model.create_from_files()
     if resultado:
         return render(request, 'gremios/cartolas_load.html')

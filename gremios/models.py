@@ -15,7 +15,13 @@ class RutGremioManager(models.Manager):
         return rut_gremio_obj
 
     def create_from_file(self, file_path="files/cartolas_gremios/RUTS.txt"):
-        pass
+        rut_file = open(file_path, 'r')
+        new_ruts= []
+        for row in rut_file:
+            if RutGremio.objects.filter(rut = row).count() == 0:
+                self.create_rut_gremio(row)
+                new_ruts.append(row)
+        return new_ruts
 
 
 class RutGremio(models.Model):
@@ -38,24 +44,25 @@ class CartolaManager(models.Manager):
         cartolas = []
         files = ls(path_in)
         for f in files:
-            # Obtenemos rut, desde y hasta del nombre de cada archivo
-            fs = f
-            rut_gremio = fs[:fs.find("_")]
-            fs = fs[fs.find("_") + 1:]
-            desde = fs[:fs.find("_")]
-            fs = fs[fs.find("_") + 1:]
-            hasta = fs[:fs.find(".")]
-            # Definimos los direcorios de los archivos de entrada y salida
-            file_preproc = path_in + f
-            # Convertimos las cadenas en fechas
-            desde_dt = dt.datetime.strptime(desde, '%Y%m%d')
-            hasta_dt = dt.datetime.strptime(hasta, '%Y%m%d')
-            file_name = rut_gremio + "_" + desde + "_" + hasta + ".pdf"
-            # Agregamos el archivo
-            pdf_file = open(file_preproc, 'rb')
-            pdf_file = File(pdf_file)
-            # Guardamos los datos en la base de datos
-            cartolas.append(self.create_cartola(rut_gremio, desde_dt, hasta_dt, pdf_file, file_name))
+            if f.find(".pdf") > -1:
+                # Obtenemos rut, desde y hasta del nombre de cada archivo
+                fs = f
+                rut_gremio = fs[:fs.find("_")]
+                fs = fs[fs.find("_") + 1:]
+                desde = fs[:fs.find("_")]
+                fs = fs[fs.find("_") + 1:]
+                hasta = fs[:fs.find(".")]
+                # Definimos los direcorios de los archivos de entrada y salida
+                file_preproc = path_in + f
+                # Convertimos las cadenas en fechas
+                desde_dt = dt.datetime.strptime(desde, '%Y%m%d')
+                hasta_dt = dt.datetime.strptime(hasta, '%Y%m%d')
+                file_name = rut_gremio + "_" + desde + "_" + hasta + ".pdf"
+                # Agregamos el archivo
+                pdf_file = open(file_preproc, 'rb')
+                pdf_file = File(pdf_file)
+                # Guardamos los datos en la base de datos
+                cartolas.append(self.create_cartola(rut_gremio, desde_dt, hasta_dt, pdf_file, file_name))
         return cartolas
 
 class Cartola(models.Model):
