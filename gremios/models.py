@@ -4,7 +4,7 @@ from django.core.files import File
 from django.core.files.storage import FileSystemStorage
 from django.conf import settings
 from accounts.models import User
-import os, shutil
+import os, shutil, stat
 import datetime as dt
 
 class RutGremioManager(models.Manager):
@@ -63,6 +63,8 @@ class CartolaManager(models.Manager):
                 pdf_file = File(pdf_file)
                 # Guardamos los datos en la base de datos
                 cartolas.append(self.create_cartola(rut_gremio, desde_dt, hasta_dt, pdf_file, file_name))
+            os.chmod(os.path.join(path_in,f), stat.S_IWRITE)
+            os.remove(os.path.join(path_in,f))
         return cartolas
 
 class Cartola(models.Model):
