@@ -4,6 +4,7 @@ from os.path import abspath
 from os import scandir, getcwd
 from itertools import cycle
 
+
 def ls(ruta = getcwd()):
     return [arch.name for arch in scandir(ruta) if arch.is_file()]
 
@@ -28,3 +29,11 @@ def validarRut(rut):
 		return True
 	else:
 		return False
+
+def validaRutGremio(rut):
+	from gremios.models import RutGremio
+	if RutGremio.objects.filter(rut__contains = rut).count() > 0:
+		return True
+	else:
+		return False
+	return true

@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth import authenticate, login, get_user_model
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 
-from core.utils import validarRut
+from core.utils import validarRut, validaRutGremio
 
 
 User = get_user_model()
@@ -124,7 +124,7 @@ class RegisterForm(forms.ModelForm):
     password2 = forms.CharField(label='Confirmación de contraseña', widget=forms.PasswordInput)
     password1.widget.attrs.update({'class': 'form-control', 'placeholder': 'Debe tener o 8 más caracteres alfanuméricos'})
     password2.widget.attrs.update({'class': 'form-control', 'placeholder': 'Favor repita su contraseña'})
-    check = forms.BooleanField(label='Aceptar')
+    # check = forms.BooleanField(label='Aceptar')
 
     class Meta:
         model = User
@@ -149,16 +149,17 @@ class RegisterForm(forms.ModelForm):
 
     def clean_rut(self):
         rut = self.cleaned_data.get("rut")
-        if validarRut(rut):
-            return rut
-        else:
+        if not validarRut(rut):
             raise forms.ValidationError("Rut no válido")
+        if not validaRutGremio(rut):
+            raise forms.ValidationError("Rut no registrado en nuestras bases de datos")
+        return rut
     
-    def clean_check(self):
-        check = self.changed_data.get("check")
-        if check == False:
-             raise forms.ValidationError("Debe aceptar los terminos y condiciones")
-        return check
+    # def clean_check(self):
+    #     check = self.changed_data.get("check")
+    #     if check == False:
+    #             raise forms.ValidationError("Debe aceptar los terminos y condiciones")
+    #     return check
 
     def save(self, commit=True):
         # Save the provided password in hashed format

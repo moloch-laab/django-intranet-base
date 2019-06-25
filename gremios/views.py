@@ -7,9 +7,13 @@ from django.http import HttpResponse
 from .models import Cartola, CartolaManager, RutGremioManager
 from core.decorators import group_required
 
-@method_decorator(group_required("Gremios"), name='dispatch')
+# @method_decorator(group_required("Gremios"), name='dispatch')
 class CartolasListView(LoginRequiredMixin, ListView):
     model = Cartola
+
+    def get_queryset(self):
+        return Cartola.objects.filter(rut_gremio=self.request.user.rut)
+    
 
 def load_cartolas(request):
     model = CartolaManager()

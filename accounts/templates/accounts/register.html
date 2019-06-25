@@ -19,37 +19,10 @@
           <p class="login-box-msg">Registrar un nuevo usuario</p>
 
           <form method='POST'> {% csrf_token %}
-            <div class="form-group has-feedback">
-              <label for="id_rut"  class="col-form-label">Rut:</label>
-              {{ form.rut }}
-            </div>
-            <div class="form-group has-feedback">
-              <label for="id_full_name"  class="col-form-label">Nombre Completo:</label>
-              {{ form.full_name }}
-            </div>
-            <div class="form-group has-feedback">
-              <label for="id_email"  class="col-form-label">Email:</label>
-              {{ form.email }}
-            </div>
-            <div class="form-group has-feedback">
-              <label for="id_password1"  class="col-form-label">Contraseña:</label>
-              {{ form.password1 }}
-            </div>
-            <div class="form-group has-feedback">
-              <label for="id_password2"  class="col-form-label">Repita contraseña:</label>
-              {{ form.password2 }}
-            </div>
-            <div class="row">
-              <div class="col-8">
-                <div class="checkbox icheck">
-                  <label>
-                    {{ form.check }} Estoy de acuerdo con los <a href="#">Terminos y condiciones</a>
-                  </label>
-                </div>
-              </div>
-              <!-- /.col -->
+             {{form}}
+            <div class="row" style="margin-top: 10px;">
               <div class="col-4">
-                <button type="submit" class="btn btn-primary btn-block btn-flat">Register</button>
+                <button type="submit" class="btn btn-primary btn-block btn-flat">Registrarse</button>
               </div>
               <!-- /.col -->
             </div>
