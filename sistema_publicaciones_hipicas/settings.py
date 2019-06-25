@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # our apps
     'core',
-    'cartolas_gremios',
+    'gremios',
     #third party apps
     'menu_generator',
 ]
