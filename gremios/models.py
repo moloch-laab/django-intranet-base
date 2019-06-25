@@ -74,6 +74,6 @@ class Cartola(models.Model):
     desde = models.DateTimeField('Movimientos desde', auto_now=False, auto_now_add=False)
     hasta = models.DateTimeField("Movimientos hasta", auto_now=False, auto_now_add=False)
     pub_date = models.DateTimeField('date published',auto_now_add=True)
-    pdf_file = models.FileField("Archivo PDF de cartola", upload_to=settings.MEDIA_ROOT + "/cartolas_gremios", max_length=300)
+    pdf_file = models.FileField("Archivo PDF de cartola", upload_to=settings.MEDIA_ROOT + "cartolas_gremios", max_length=300)
 
     objects = CartolaManager()
