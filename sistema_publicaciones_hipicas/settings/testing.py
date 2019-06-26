@@ -15,3 +15,5 @@ DATABASES = {
         'PORT': '5432',
     }
 }
+
+CARTOLAS_PATH = '/home/ftp_hch/cartolas_gremios/'

@@ -3,6 +3,7 @@ import datetime as dt
 from django.db import models
 from django.core.files import File
 from django.core.files.storage import FileSystemStorage
+from settings import CARTOLAS_PATH
 
 from core.utils import ls
 from accounts.models import User
@@ -14,7 +15,7 @@ class RutGremioManager(models.Manager):
         rut_gremio_obj.save()
         return rut_gremio_obj
 
-    def create_from_file(self, file_path="files/cartolas_gremios/RUTS.txt"):
+    def create_from_file(self, file_path= CARTOLAS_PATH + "RUTS.txt"):
         rut_file = open(file_path, 'r')
         new_ruts= []
         for row in rut_file:
@@ -40,7 +41,7 @@ class CartolaManager(models.Manager):
         cartola_obj.save()
         return cartola_obj
 
-    def create_from_files(self, path_in="files/cartolas_gremios/"):
+    def create_from_files(self, path_in=CARTOLAS_PATH):
         cartolas = []
         files = ls(path_in)
         for f in files:
