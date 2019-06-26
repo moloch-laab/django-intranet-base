@@ -16,4 +16,4 @@ DATABASES = {
     }
 }
 
-STATICFILES_DIRS += '/home/sistema_publicaciones_hipicas/sistema_publicaciones_hipicas/static/'
+STATICFILES_DIRS += ('/home/sistema_publicaciones_hipicas/sistema_publicaciones_hipicas/static/')
