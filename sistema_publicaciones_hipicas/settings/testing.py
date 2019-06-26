@@ -15,5 +15,3 @@ DATABASES = {
         'PORT': '5432',
     }
 }
-
-STATICFILES_DIRS.append('/home/sistema_publicaciones_hipicas/sistema_publicaciones_hipicas/static/')
