@@ -15,3 +15,5 @@ DATABASES = {
         'PORT': '5432',
     }
 }
+
+STATIC_ROOT = '/home/sistema_publicaciones_hipicas/sistema_publicaciones_hipicas/static/'
