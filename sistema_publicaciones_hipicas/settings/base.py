@@ -25,7 +25,7 @@ SECRET_KEY = '*p2pgu5-zp@8xvd%*-exav-0j0#z0&4$4fthj2hh+41!!97(2$'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['10.10.10.127']
 
 
 # Application definition

@@ -3,7 +3,6 @@ import datetime as dt
 from django.db import models
 from django.core.files import File
 from django.core.files.storage import FileSystemStorage
-from django.conf import settings
 
 from core.utils import ls
 from accounts.models import User
