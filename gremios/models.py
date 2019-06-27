@@ -14,7 +14,7 @@ class RutGremioManager(models.Manager):
         rut_gremio_obj.save()
         return rut_gremio_obj
 
-    def create_from_file(self, file_path="/home/ftp_hch/cartolas_gremios/RUTS.txt"):
+    def create_from_file(self, file_path="files/cartolas_gremios/RUTS.txt"):
         rut_file = open(file_path, 'r')
         new_ruts= []
         for row in rut_file:
@@ -40,7 +40,7 @@ class CartolaManager(models.Manager):
         cartola_obj.save()
         return cartola_obj
 
-    def create_from_files(self, path_in="/home/ftp_hch/cartolas_gremios/"):
+    def create_from_files(self, path_in="files/cartolas_gremios/"):
         cartolas = []
         files = ls(path_in)
         for f in files:
