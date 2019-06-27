@@ -57,7 +57,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'sistema_publicaciones_hipicas.urls'
+ROOT_URLCONF = 'intranet_externos.urls'
 
 TEMPLATES = [
     {
@@ -75,7 +75,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'sistema_publicaciones_hipicas.wsgi.application'
+WSGI_APPLICATION = 'intranet_externos.wsgi.application'
 
 
 # Database
