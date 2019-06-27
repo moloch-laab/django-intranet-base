@@ -1,7 +1,7 @@
 from django.views.generic.list import ListView
 from django.utils.decorators import method_decorator
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import render
+# from django.shortcuts import render
 from django.http import HttpResponse
 
 from .models import Cartola, CartolaManager, RutGremioManager
@@ -22,6 +22,6 @@ def load_cartolas(request):
     new_ruts = rut_gremios.create_from_file()
     resultado = model.create_from_files()
     if resultado:
-        return render(request, 'gremios/cartolas_load.html')
+        return HttpResponse('Cartolas cargadas')
     else:
-        return HttpResponse('<h1>Error al cargar cartolas</h1>')
+        return HttpResponse('Error al cargar cartolas')
