@@ -13,8 +13,9 @@ class UserManager(BaseUserManager):
             raise ValueError("El usuario debe tener contraseña")
         if not valida_rut(rut):
             raise ValueError("Rut no válido")
-        if not valida_rut_gremio(rut):
-            raise ValueError("Rut no registrado en nuestras bases de datos")
+        if not is_staff and not is_superuser: # valida si el usuario es staff o super usuario, en caso contrario, valida si es usuario gremio
+            if not valida_rut_gremio(rut):
+                raise ValueError("Rut no registrado en nuestras bases de datos")
         user_obj = self.model(rut = rut)
         user_obj.full_name = full_name
         user_obj.email = self.normalize_email(email)
