@@ -1,6 +1,6 @@
 from django.contrib.auth import authenticate, login, get_user_model
 from django.views.generic import CreateView, FormView
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render,redirect
 from django.utils.http import is_safe_url
 
@@ -16,6 +16,11 @@ class LoginView(NextUrlMixin, RequestFormAttachMixin, FormView):
     # def form_valid(self, form):
     #     next_path = self.get_next_url()
     #     return redirect(next_path)
+    
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            return HttpResponseRedirect('/')
+        return super(LoginView, self).dispatch(request, *args, **kwargs)
 
     def form_valid(self, form):
         request = self.request
@@ -36,6 +41,7 @@ class LoginView(NextUrlMixin, RequestFormAttachMixin, FormView):
 
 
 class RegisterView(CreateView):
+    model = get_user_model()
     form_class = RegisterForm
     template_name = 'accounts/register.html'
     success_url = '/login/'
