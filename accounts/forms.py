@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth import authenticate, login, get_user_model
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 
-from core.utils import validarRut, validaRutGremio
+from core.utils import valida_rut, valida_rut_gremio
 
 
 User = get_user_model()
@@ -149,9 +149,9 @@ class RegisterForm(forms.ModelForm):
 
     def clean_rut(self):
         rut = self.cleaned_data.get("rut")
-        if not validarRut(rut):
+        if not valida_rut(rut):
             raise forms.ValidationError("Rut no válido")
-        if not validaRutGremio(rut):
+        if not valida_rut_gremio(rut):
             raise forms.ValidationError("Rut no registrado en nuestras bases de datos")
         return rut
     

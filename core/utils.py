@@ -11,7 +11,7 @@ def ls(ruta = getcwd()):
 def ls_a(ruta = getcwd()):
     return [abspath(arch.path) for arch in scandir(ruta) if arch.is_file()]
 
-def validarRut(rut):
+def valida_rut(rut):
 	rut = rut.upper()
 	rut = rut.replace("-","")
 	rut = rut.replace(".","")
@@ -30,7 +30,7 @@ def validarRut(rut):
 	else:
 		return False
 
-def validaRutGremio(rut):
+def valida_rut_gremio(rut):
 	from gremios.models import RutGremio
 	if RutGremio.objects.filter(rut__contains = rut).count() > 0:
 		return True

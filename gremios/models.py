@@ -4,11 +4,13 @@ from django.db import models
 from django.core.files import File
 from django.core.files.storage import FileSystemStorage
 
-from core.utils import ls
+from core.utils import ls, valida_rut
 from accounts.models import User
 
 class RutGremioManager(models.Manager):
     def create_rut_gremio(self, rut):
+        if not valida_rut(rut):
+            raise ValueError("Rut no válido")
         rut_gremio_obj = RutGremio()
         rut_gremio_obj.rut = rut
         rut_gremio_obj.save()
