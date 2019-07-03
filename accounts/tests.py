@@ -17,4 +17,4 @@ class TestHomePage(ObjectsCreation, TestCase):
         response = self.client.get('/')
         self.assertEqual(response.status_code, 200)
         if response.status_code == 200:
-            self.assertIn("", str(response.content))
+            self.assertIn("Intranet", str(response.content))
