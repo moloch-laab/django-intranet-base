@@ -9,14 +9,14 @@ from accounts.models import User
 
 class RutGremioManager(models.Manager):
     def create_rut_gremio(self, rut):
-        if not valida_rut(rut):
-            raise ValueError("Rut no válido")
+        #if not valida_rut(rut):
+        #    raise ValueError("Rut no válido")
         rut_gremio_obj = RutGremio()
         rut_gremio_obj.rut = rut
         rut_gremio_obj.save()
         return rut_gremio_obj
 
-    def create_from_file(self, file_path="/home/ftp_hch/cartolas_gremios/RUTS.txt"):
+    def create_from_file(self, file_path="files/cartolas_gremios/RUTS.txt"):
         rut_file = open(file_path, 'r')
         new_ruts= []
         for row in rut_file:
@@ -42,7 +42,7 @@ class CartolaManager(models.Manager):
         cartola_obj.save()
         return cartola_obj
 
-    def create_from_files(self, path_in="/home/ftp_hch/cartolas_gremios/"):
+    def create_from_files(self, path_in="files/cartolas_gremios/"):
         cartolas = []
         files = ls(path_in)
         for f in files:
