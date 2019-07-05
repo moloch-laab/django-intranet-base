@@ -1,11 +1,16 @@
 from django.contrib.auth import authenticate, login, get_user_model
-from django.views.generic import CreateView, FormView
+from django.views.generic import (CreateView, 
+                                  FormView, 
+                                  TemplateView)
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render,redirect
 from django.utils.http import is_safe_url
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from core.mixins import NextUrlMixin, RequestFormAttachMixin
-from .forms import LoginForm, RegisterForm
+from .forms import (LoginForm, 
+                    RegisterForm,
+                    ChangePasswordForm)
 
 class LoginView(NextUrlMixin, RequestFormAttachMixin, FormView):
     form_class = LoginForm
@@ -38,8 +43,6 @@ class LoginView(NextUrlMixin, RequestFormAttachMixin, FormView):
                 return redirect("/")
         return super(LoginView, self).form_invalid(form)
 
-
-
 class RegisterView(CreateView):
     model = get_user_model()
     form_class = RegisterForm
@@ -50,3 +53,25 @@ class RegisterView(CreateView):
         context = super().get_context_data(**kwargs)
         context["title"] = 'Registro'
         return context
+
+class ChangePasswordView(LoginRequiredMixin, FormView):
+    template_name = "accounts/change_password.html"
+    form_class = ChangePasswordForm
+    def get_context_data(self, **kwargs):
+        context = super(ChangePasswordView, self).get_context_data(**kwargs)
+        return context
+    
+    def post(self, request, *args, **kwargs):
+        error, errors = "", ""
+        form = ChangePasswordForm(request.POST, user=request.user)
+        if form.is_valid():
+            user = request.user
+            user.set_password(request.POST.get('password2'))
+            user.active = True
+            user.save()
+            return HttpResponseRedirect('/login/?next=/&passchanged=True')
+        else:
+            errors = form.errors
+        return render(request, "change_password.html",
+                      {'error': error, 'errors': errors,
+                       'change_password_form': form})

@@ -1,5 +1,5 @@
 from django import forms
-from django.contrib.auth import authenticate, login, get_user_model
+from django.contrib.auth import authenticate, login, get_user_model, password_validation
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 
 from core.utils import valida_rut, valida_rut_gremio
@@ -136,15 +136,7 @@ class RegisterForm(forms.ModelForm):
         password2 = self.cleaned_data.get("password2")
         if password1 and password2 and password1 != password2:
             raise forms.ValidationError("las contraseñas no coinciden.")
-        # Check if password is over 8 characters
-        if len(password2) < 8:
-            raise forms.ValidationError("La contraseña debe tener 8 o más caracteres.")
-        # Check if password contains chars and numbers
-        if password2.isalpha() or password2.isdigit():
-            raise forms.ValidationError("La contraseña debe ser contener letras y números.")
-        # Check if password constains only spaces
-        # if isspace():
-        #      raise forms.ValidationError("Ingrese una contraseña válida.")
+        password_validation.validate_password(password2, user=self.user)
         return password2
 
     def clean_rut(self):
@@ -169,3 +161,22 @@ class RegisterForm(forms.ModelForm):
         if commit:
             user.save()
         return user
+
+class ChangePasswordForm(forms.Form):
+    password1 = forms.CharField(label='Contraseña', widget=forms.PasswordInput)
+    password2 = forms.CharField(label='Confirmación de contraseña', widget=forms.PasswordInput)
+    password1.widget.attrs.update({'class': 'form-control', 'placeholder': ''})
+    password2.widget.attrs.update({'class': 'form-control', 'placeholder': 'Favor repita su contraseña'})
+    
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user', None)
+        super(ChangePasswordForm, self).__init__(*args, **kwargs)
+
+    def clean_password2(self):
+        # Check that the two password entries match
+        password1 = self.cleaned_data.get("password1")
+        password2 = self.cleaned_data.get("password2")
+        if password1 and password2 and password1 != password2:
+            raise forms.ValidationError("las contraseñas no coinciden.")
+        password_validation.validate_password(password2, user=self.user)
+        return password2

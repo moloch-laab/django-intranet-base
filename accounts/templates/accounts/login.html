@@ -22,13 +22,13 @@
   <body class="hold-transition login-page">
     <div class="login-box">
       <div class="login-logo">
+        {% if request.GET.passchanged %}<h3 class="">Su contraseña se ha cambiado exitosamente</h3>{% endif %}
         <a href="/"><b>Intranet Externos </b>Hipódromo Chile</a>
       </div>
       <!-- /.login-logo -->
       <div class="card">
         <div class="card-body login-card-body">
           <p class="login-box-msg">Ingrese sus datos para comenzar su sesión</p>
-
           <form method='POST'> {% csrf_token %}
             <div class="form-group has-feedback">
               <label for="id_rut"  class="col-form-label">Rut:</label>
