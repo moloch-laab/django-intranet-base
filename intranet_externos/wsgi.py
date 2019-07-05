@@ -1,5 +1,5 @@
 """
-WSGI config for sistema_publicaciones_hipicas project.
+WSGI config for intranet_externos project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 

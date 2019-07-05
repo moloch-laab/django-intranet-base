@@ -6,6 +6,7 @@ from django.http import HttpResponse
 
 from .models import Cartola, CartolaManager, RutGremioManager
 from core.decorators import group_required
+from core.utils import rows_from_txt
 
 # @method_decorator(group_required("Gremios"), name='dispatch')
 class CartolasListView(LoginRequiredMixin, ListView):
@@ -18,8 +19,9 @@ class CartolasListView(LoginRequiredMixin, ListView):
 def load_cartolas(request):
     model = CartolaManager()
     rut_gremios = RutGremioManager()
-    
-    new_ruts = rut_gremios.create_from_file()
+    rut_rows = rows_from_txt("files/cartolas_gremios/RUTS.txt")
+    if rut_rows:
+        new_ruts = rut_gremios.create_from_list(rut_rows)
     resultado = model.create_from_files()
     if resultado:
         return HttpResponse('Cartolas cargadas')

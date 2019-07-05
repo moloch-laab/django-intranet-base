@@ -1,8 +1,9 @@
 from django.views.generic.base import TemplateView
 from django.shortcuts import render
 
-class HomePageView(TemplateView):
-    template_name = "core/home.html"
+from django.contrib.auth.mixins import LoginRequiredMixin
 
+class HomePageView(LoginRequiredMixin, TemplateView):
+    template_name = "core/home.html"
     def get(self, request, *args, **kwargs):
         return render(request, self.template_name)

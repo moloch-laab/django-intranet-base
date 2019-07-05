@@ -8,7 +8,7 @@ ALLOWED_HOSTS = []
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'sistema_publicaciones_hipicas',
+        'NAME': 'intranet_externos',
         'USER': 'admin_hch',
         'PASSWORD': 'pass.1234',
         'HOST': 'localhost',
