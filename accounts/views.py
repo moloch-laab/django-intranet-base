@@ -72,6 +72,6 @@ class ChangePasswordView(LoginRequiredMixin, FormView):
             return HttpResponseRedirect('/login/?next=/&passchanged=True')
         else:
             errors = form.errors
-        return render(request, "change_password.html",
+        return render(request, self.template_name,
                       {'error': error, 'errors': errors,
                        'change_password_form': form})
