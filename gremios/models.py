@@ -10,24 +10,19 @@ from accounts.models import User
 class RutGremioManager(models.Manager):
     def create_rut_gremio(self, rut):
         if not valida_rut(rut):
-            raise ValueError("Rut '%s' no válido" % (rut))
+            return "Rut '%s' no válido" % (rut)
         rut_gremio_obj = RutGremio()
         rut_gremio_obj.rut = rut
         rut_gremio_obj.save()
         return rut_gremio_obj
-
-    def create_from_list(self, rows = rows_from_txt("files/cartolas_gremios/RUTS.txt")):
+    
+    def create_from_list(self, rows):
         rut_gremios= []
-        if rows:
-            for rut in rows:
-                if RutGremio.objects.filter(rut = rut).count() == 0:
-                    rut_gremios.append(self.create_rut_gremio(rut))
-            rm(os.path.join("files/cartolas_gremios/RUTS.txt"))
-        else:
-            return rows
+        for rut in rows:
+            if RutGremio.objects.filter(rut = rut).count() == 0:
+                rut_gremios.append(self.create_rut_gremio(rut))
         return rut_gremios
     
-
 class RutGremio(models.Model):
     rut = models.CharField('Rut de gremio', max_length=20, unique=True)
 
