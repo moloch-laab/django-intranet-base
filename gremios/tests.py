@@ -1,5 +1,6 @@
 from django.test import TestCase, Client
 
+from accounts.models import User
 from .models import Cartola, RutGremio
 
 
@@ -13,7 +14,12 @@ class ObjectsCreation(object):
 
 class RutGremioModelTestCase(ObjectsCreation, TestCase):
     def test_create_rut_gremio(self):
-        pass
+        RutGremio.objects.create_rut_gremio(rut='5169011-7')
+        self.assertEqual(RutGremio.objects.filter(rut='5169011-7').count(), 1)
+
+    def test_create_from_file(self):
+        rut_gremios = RutGremio.objects.create_from_file()
+        self.assertEqual(RutGremio.objects.all().count() > 1, True)
 
 # class CartolaModelTestCase(ObjectsCreation, TestCase):
     # def test_string_representation_user(self):

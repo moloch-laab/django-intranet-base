@@ -1,8 +1,10 @@
 #!/usr/bin/env python
 import sys
+import stat
+from os import scandir, getcwd, chmod, remove
 from os.path import abspath
-from os import scandir, getcwd
 from itertools import cycle
+
 
 
 def ls(ruta = getcwd()):
@@ -10,6 +12,10 @@ def ls(ruta = getcwd()):
 
 def ls_a(ruta = getcwd()):
     return [abspath(arch.path) for arch in scandir(ruta) if arch.is_file()]
+
+def rm(ruta = getcwd()):
+	chmod(ruta, stat.S_IWRITE)
+	return remove(ruta)
 
 def valida_rut(rut):
 	rut = rut.upper()
