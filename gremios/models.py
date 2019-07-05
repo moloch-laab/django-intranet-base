@@ -17,7 +17,10 @@ class RutGremioManager(models.Manager):
         return rut_gremio_obj
 
     def create_from_file(self, file_path="files/cartolas_gremios/RUTS.txt"):
-        rut_file = open(file_path, 'r')
+        try:
+            rut_file = open(file_path, 'r')
+        except FileNotFoundError:
+            return "El archivo no existe"
         rut_gremios= []
         for row in rut_file:
             row = row.replace("\n","")

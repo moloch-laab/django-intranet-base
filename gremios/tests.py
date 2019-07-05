@@ -17,9 +17,19 @@ class RutGremioModelTestCase(ObjectsCreation, TestCase):
         RutGremio.objects.create_rut_gremio(rut='5169011-7')
         self.assertEqual(RutGremio.objects.filter(rut='5169011-7').count(), 1)
 
+    def test_create_rut_gremio_rut_not_valid(self):
+        # rut_gremio = RutGremio.objects.create_rut_gremio(rut='111-k')
+        with self.assertRaises(ValueError) as value_error:
+            RutGremio.objects.create_rut_gremio(rut='111-k')
+        self.assertIn("no válido", str(value_error.exception))
+        # self.assertEqual(RutGremio.objects.filter(rut='111-k').count(), 0)
+
     def test_create_from_file(self):
         rut_gremios = RutGremio.objects.create_from_file()
-        self.assertEqual(RutGremio.objects.all().count() > 1, True)
+        if type(rut_gremios) != str:
+            self.assertEqual(len(rut_gremios) > 0, True)
+        else:
+            self.assertEqual(rut_gremios, 'El archivo no existe')
 
 # class CartolaModelTestCase(ObjectsCreation, TestCase):
     # def test_string_representation_user(self):
