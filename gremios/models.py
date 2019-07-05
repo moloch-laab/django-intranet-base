@@ -28,7 +28,6 @@ class RutGremioManager(models.Manager):
 
 class RutGremio(models.Model):
     rut = models.CharField('Rut de gremio', max_length=20, unique=True)
-    user_id = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
 
     objects = RutGremioManager()
 
