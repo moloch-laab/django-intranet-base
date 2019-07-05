@@ -4,7 +4,7 @@ from django.db import models
 from django.core.files import File
 from django.core.files.storage import FileSystemStorage
 
-from core.utils import ls, valida_rut, rm
+from core.utils import ls, valida_rut, rm, rows_from_txt
 from accounts.models import User
 
 class RutGremioManager(models.Manager):
@@ -16,18 +16,15 @@ class RutGremioManager(models.Manager):
         rut_gremio_obj.save()
         return rut_gremio_obj
 
-    def create_from_file(self, file_path="files/cartolas_gremios/RUTS.txt"):
-        try:
-            rut_file = open(file_path, 'r')
-        except FileNotFoundError:
-            return "El archivo no existe"
+    def create_from_list(self, rows = rows_from_txt("files/cartolas_gremios/RUTS.txt")):
         rut_gremios= []
-        for row in rut_file:
-            row = row.replace("\n","")
-            if RutGremio.objects.filter(rut = row).count() == 0:
-                rut_gremios.append(self.create_rut_gremio(row))
-        rut_file.close()
-        rm(os.path.join(file_path))
+        if rows:
+            for rut in rows:
+                if RutGremio.objects.filter(rut = rut).count() == 0:
+                    rut_gremios.append(self.create_rut_gremio(rut))
+            rm(os.path.join("files/cartolas_gremios/RUTS.txt"))
+        else:
+            return rows
         return rut_gremios
     
 

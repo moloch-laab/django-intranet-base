@@ -19,7 +19,7 @@ def load_cartolas(request):
     model = CartolaManager()
     rut_gremios = RutGremioManager()
     
-    new_ruts = rut_gremios.create_from_file()
+    new_ruts = rut_gremios.create_from_list()
     resultado = model.create_from_files()
     if resultado:
         return render(request, 'gremios/cartolas_load.html')
