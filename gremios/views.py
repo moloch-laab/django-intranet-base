@@ -5,10 +5,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse
 
 from .models import Cartola, CartolaManager, RutGremioManager
-from core.decorators import group_required
 from core.utils import rows_from_txt
 
-# @method_decorator(group_required("Gremios"), name='dispatch')
 class CartolasListView(LoginRequiredMixin, ListView):
     model = Cartola
 

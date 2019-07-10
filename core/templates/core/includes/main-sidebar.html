@@ -2,8 +2,8 @@
 {% load menu_generator %}
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
   <!-- Brand Logo -->
-  <a href="index3.html" class="brand-link">
-    <img src="{% static 'core/dist/img/hch_logo.jpg' %}" alt="Logo Hipódromo Chile" class="brand-image img-circle elevation-3"
+  <a href="/" class="brand-link">
+    <img src="{% static 'core/img/hch_logo.jpg' %}" alt="Logo Hipódromo Chile" class="brand-image img-circle elevation-3"
           style="opacity: .8">
     <span class="brand-text font-weight-light">Hipódromo Chile</span>
   </a>
@@ -12,11 +12,12 @@
   <div class="sidebar">
     <!-- Sidebar user panel (optional) -->
     <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-      {% comment %} <div class="image">
-        <img src="{% static 'core/dist/img/user2-160x160.jpg' %}" class="img-circle elevation-2" alt="User Image">
-      </div> {% endcomment %}
+      <div class="image">
+        {% comment %} <i class="fa fa-user img-circle elevation-2" alt="User Image"></i> {% endcomment %}
+        {% comment %} <img src="{% static 'core/img/user2-160x160.jpg' %}" class="img-circle elevation-2" alt="User Image"> {% endcomment %}
+      </div>
       <div class="info">
-        <a href="#" class="d-block">{{ user.get_full_name }}</a>
+        <a href="#" class="d-block">{{user.get_full_name}}</a>
       </div>
     </div>
 
@@ -24,6 +25,8 @@
     {% get_menu "MAIN_SIDEBAR" as main_sidebar %}
     <nav class="mt-2">
       <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+        <!-- Add icons to the links using the .nav-icon class
+              with font-awesome or any other icon font library -->
         {% for item in main_sidebar %}
         <li class="nav-item{% if item.submenu %} has-treeview{% endif %}">
           <a href="{{ item.url }}" class="nav-link">
@@ -47,6 +50,38 @@
           {% endif %}
         </li>
         {% endfor %}
+        {% comment %} <li class="nav-item has-treeview menu-open">
+          <a href="#" class="nav-link active">
+            <i class="nav-icon fas fa-tachometer-alt"></i>
+            <p>
+              Starter Pages
+              <i class="right fas fa-angle-left"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview">
+            <li class="nav-item">
+              <a href="#" class="nav-link active">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Active Page</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="#" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Inactive Page</p>
+              </a>
+            </li>
+          </ul>
+        </li>
+        <li class="nav-item">
+          <a href="#" class="nav-link">
+            <i class="nav-icon fas fa-th"></i>
+            <p>
+              Simple Link
+              <span class="right badge badge-danger">New</span>
+            </p>
+          </a>
+        </li> {% endcomment %}
       </ul>
     </nav>
     <!-- /.sidebar-menu -->

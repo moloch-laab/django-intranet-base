@@ -1,0 +1,50 @@
+{% extends 'core/base_guest.html' %}
+{% block body_class %}login-box{% endblock body_class %}
+{% block content %}
+<div class="card">
+  <div class="card-body login-card-body">
+    {% comment %} <p class="login-box-msg">Ingresa tus datos para iniciar sesión</p> {% endcomment %}
+    {% if form %}
+      <!-- Form Errors -->
+      {% if form.errors %}
+          <ul class="errors">
+              {% for error in form.non_field_errors %}
+                  <li>{{ error }}</li>
+              {% endfor %}
+          </ul>
+      {% endif %}
+      <form method="post"> {% csrf_token %}
+        {% for field in form %}
+            <div class="mb3">
+                <label class="mylabel">{{ field.label }}:</label>
+                {{ field }}
+            </div>
+        {% endfor %}
+        <hr>
+        <div class="row">
+          {% comment %} <div class="col-8">
+            <div class="icheck-primary">
+              <input type="checkbox" id="remember">
+              <label for="remember">
+                Recuerdame
+              </label>
+            </div>
+          </div> {% endcomment %}
+          <!-- /.col -->
+          <div class="col-4">
+            <button type="submit" class="btn btn-primary btn-block btn-flat">Entrar</button>
+          </div>
+          <!-- /.col -->
+        </div>
+      </form>
+    {% endif %}
+    <p class="mb-1">
+      {% comment %} <a href="#">Olvidé mi contraseña</a> {% endcomment %}
+    </p>
+    <p class="mb-0">
+      <a href="/register/" class="text-center">Registrar nuevo usuario</a>
+    </p>
+  </div>
+  <!-- /.login-card-body -->
+</div>
+{% endblock content %}

@@ -1,54 +1,53 @@
 from django.test import TestCase, Client
 
-from accounts.models import User
-from gremios.models import RutGremio
+from common.models import User
 
-
-class ObjectsCreation(object):
+class ObjectCreation(object):
     def setUp(self):
         self.client = Client()
-        self.rut_gremio = RutGremio.objects.create_rut_gremio(rut='12245453-3')
-        self.user = User.objects.create_user(rut='12245453-3', password='pass.1234')
-        self.staff_user = User.objects.create_staffuser(rut='16747983-9', password='pass.1234')
-        self.super_user = User.objects.create_superuser(rut='17256372-4', password='pass.1234')
+        self.user = User.objects.create_user(rut='7264437-9', 
+                                             email='test1@test.cl', 
+                                             first_name='Test', 
+                                             last_name='Testo', 
+                                             password='pass.1234')
 
-class HomePageTestCase(ObjectsCreation, TestCase):
-
-    def test_redirect_to_login_page_if_not_authenticated(self):
-        response = self.client.get('/')
-        self.assertEqual(response.status_code, 302)
-        if response.status_code == 302:
-            self.assertIn("login", str(response.url))
-    
-    def test_home_page_pass_if_authenticated(self):
+    def login(self, email='test1@test.cl', password='pass.1234'):
+        url = '/login/'
         data = {
-            'rut': self.user.rut, 
-            'password': 'pass.1234',
+            'email': email,
+            'password': password
         }
-        response = self.client.post('/login/', data)
-        response = self.client.get('/')
-        self.assertEqual(response.status_code, 200)
-        self.assertIn("Inicio", str(response.content))
+        self.client.post(url,data)
 
-    def test_home_page_pass_if_staff_user(self):
+    def register_user_post_method(self):
+        url = '/register/'
         data = {
-            'rut': self.staff_user.rut, 
-            'password': 'pass.1234',
+            'first_name': 'Juan',
+            'last_name': 'Perez',
+            'rut': '13064499-6',
+            'email': 'test2@test.cl',
+            'password1': 'pass.1234',
+            'password2': 'pass.1234',
         }
-        response = self.client.post('/login/', data)
-        response = self.client.get('/')
-        self.assertEqual(response.status_code, 200)
-        self.assertIn("Inicio", str(response.content))
+        self.client.post(url, data)
 
-    def test_home_page_pass_if_super_user(self):
-        data = {
-            'rut': self.super_user.rut, 
-            'password': 'pass.1234',
-        }
-        response = self.client.post('/login/', data)
+class HomeViewTestCase(ObjectCreation, TestCase):
+    def test_home_page_guest(self):
         response = self.client.get('/')
-        self.assertEqual(response.status_code, 200)
-        self.assertIn("Inicio", str(response.content))
+        self.assertEqual(302, response.status_code)
+        self.assertIn("/login/", str(response.url))
+
+    def test_home_page_login_user(self):
+        response = self.login()
+        response = self.client.get('/')
+        self.assertEqual(200, response.status_code)
+
+    def test_home_page_login_inactive_user(self):
+        response = self.register_user_post_method
+        response = self.login(email='test2@test.cl', password='pass.1234')
+        response = self.client.get('/')
+        self.assertEqual(302, response.status_code)
+        self.assertIn("/login/", str(response.url))
 
 class AdminPageTestCase(ObjectsCreation, TestCase):
     def test_admin_page_redirect_if_authenticated(self):

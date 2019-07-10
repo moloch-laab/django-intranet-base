@@ -5,7 +5,7 @@ from django.core.files import File
 from django.core.files.storage import FileSystemStorage
 
 from core.utils import ls, valida_rut, rm, rows_from_txt
-from accounts.models import User
+from common.models import User
 
 class RutGremioManager(models.Manager):
     def create_rut_gremio(self, rut):

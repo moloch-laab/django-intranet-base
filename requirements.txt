@@ -13,3 +13,4 @@ six
 sqlparse
 typed-ast
 wrapt
+Pillow

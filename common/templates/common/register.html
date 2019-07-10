@@ -1,0 +1,32 @@
+{% extends 'core/base_guest.html' %}
+{% block body_class %}register-box{% endblock body_class %}
+{% block content %}
+<div class="card">
+  <div class="card-body register-card-body">
+    <p class="login-box-msg">Registrar nuevo usuario</p>
+
+    <form method="post">{% csrf_token %}
+      {{ form }}
+      <hr>
+      <div class="row">
+        <div class="col-8">
+          {% comment %} <div class="icheck-primary">
+            <input type="checkbox" id="agreeTerms" name="terms" value="agree">
+            <label for="agreeTerms">
+              Estoy de acuerdo con los <a href="#">Terminos y Condiciones</a>
+            </label>
+          </div> {% endcomment %}
+        </div>
+        <!-- /.col -->
+        <div class="col-4">
+          <button type="submit" class="btn btn-primary btn-block btn-flat">Registrar</button>
+        </div>
+        <!-- /.col -->
+      </div>
+    </form>
+
+    <a href="/login/" class="text-center">Ya tengo cuenta</a>
+  </div>
+  <!-- /.form-box -->
+</div><!-- /.card -->
+{% endblock content %}
