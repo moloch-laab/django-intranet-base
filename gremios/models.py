@@ -16,6 +16,11 @@ class RutGremioManager(models.Manager):
         rut_gremio_obj.save()
         return rut_gremio_obj
     
+    def create_rut_from_file(self, file_path="files/cartolas_gremios/RUTS.txt"):
+        rut_rows = rows_from_txt(file_path)
+        if rut_rows:
+            new_ruts = self.create_from_list(rut_rows)
+
     def create_from_list(self, rows):
         rut_gremios= []
         for rut in rows:
@@ -27,6 +32,9 @@ class RutGremio(models.Model):
     rut = models.CharField('Rut de gremio', max_length=20, unique=True)
 
     objects = RutGremioManager()
+
+    def __str__(self):
+        return self.rut
 
 class CartolaManager(models.Manager):
     def create_cartola(self, rut_gremio, desde, hasta, pdf_file, file_name):
@@ -55,6 +63,8 @@ class CartolaManager(models.Manager):
                 pdf_file.close()
                 rm(os.path.join(path_in,f))
         return cartolas
+    def __open_file(self, f):
+        return File(open(f, 'rb'))
 
     def __fields_from_file(self, f):
         fields = {}
@@ -73,3 +83,6 @@ class Cartola(models.Model):
     pdf_file = models.FileField("Archivo PDF de cartola", upload_to="../media/cartolas_gremios", max_length=300)
 
     objects = CartolaManager()
+    
+    def __str__(self):
+        return self.pdf_file.name
