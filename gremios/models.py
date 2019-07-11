@@ -1,6 +1,7 @@
 import os
 import datetime as dt
 from django.db import models
+from django.utils import timezone
 from django.core.files import File
 from django.core.files.storage import FileSystemStorage
 
@@ -46,16 +47,13 @@ class CartolaManager(models.Manager):
         cartola_obj.save()
         return cartola_obj
 
-    def create_from_files(self, path_in="files/cartolas_gremios/"):
+    def create_from_path(self, path_in="files/cartolas_gremios/"):
         cartolas = []
         files = ls(path_in)
         for f in files:
             if f.find(".pdf") > -1:
-                # Definimos los directorios de los archivos de entrada y salida
-                file_preproc = path_in + f
                 # Agregamos el archivo
-                pdf_file = open(file_preproc, 'rb')
-                pdf_file = File(pdf_file)
+                pdf_file = self.__open_file(os.path.join(path_in,f))
                 # Obtenemos los campos del modelo desde el nombre del archivo
                 fields = self.__fields_from_file(f)
                 # Guardamos los datos en la base de datos
@@ -70,9 +68,9 @@ class CartolaManager(models.Manager):
         fields = {}
         fields["rut_gremio"] = f[:f.find("_")]
         f = f[f.find("_") + 1:]
-        fields["desde"] = dt.datetime.strptime(f[:f.find("_")], '%Y%m%d')
+        fields["desde"] = timezone.make_aware(dt.datetime.strptime(f[:f.find("_")], '%Y%m%d'),timezone.get_default_timezone())
         f = f[f.find("_") + 1:]
-        fields["hasta"] = dt.datetime.strptime(f[:f.find(".")], '%Y%m%d')
+        fields["hasta"] =  timezone.make_aware(dt.datetime.strptime(f[:f.find(".")], '%Y%m%d'),timezone.get_default_timezone())
         return fields
 
 class Cartola(models.Model):

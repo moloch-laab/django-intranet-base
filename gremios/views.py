@@ -19,7 +19,7 @@ class LoadCartolasView(TemplateView):
         model = CartolaManager()
         rut_gremios = RutGremioManager()
         new_ruts = rut_gremios.create_rut_from_file()
-        resultado = model.create_from_files()
+        resultado = model.create_from_path()
         if resultado:
             return HttpResponse('Cartolas cargadas')
         else:

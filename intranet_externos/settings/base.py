@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'gremios',
     #third party apps
     'menu_generator',
+    'fpdf',
 ]
 
 AUTH_USER_MODEL = 'common.User'
