@@ -1,3 +1,4 @@
+import logging
 from django import forms
 from django.contrib.auth import authenticate, login, get_user_model, password_validation
 from django.contrib.auth.forms import ReadOnlyPasswordHashField, SetPasswordForm
@@ -72,6 +73,7 @@ class RegisterForm(forms.ModelForm):
         user.set_password(self.cleaned_data["password2"])
         user.active = False # El usuario debe ser validado por el administrador.
         if commit:
+            logging.getLogger("info_logger").info("Register User: " + user.rut)
             user.save()
         return user
 

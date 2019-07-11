@@ -46,6 +46,7 @@ class LoginView(FormView):
         user = authenticate(request, username=rut, password=password)
         if user is not None:
             login(request, user)
+            logging.getLogger("info_logger").info("Login User: " + user.rut)
             return redirect("/")
         return super(LoginView, self).form_invalid(form)
 
@@ -71,4 +72,5 @@ class PasswordChangeView(PasswordContextMixin, FormView):
         # Updating the password logs out all other sessions for the user
         # except the current one.
         update_session_auth_hash(self.request, form.user)
+        logging.getLogger("info_logger").info("Password Change User: " + self.request.user.rut)
         return super().form_valid(form)
