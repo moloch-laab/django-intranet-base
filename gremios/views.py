@@ -13,7 +13,7 @@ class CartolasListView(LoginRequiredMixin, ListView):
     model = Cartola
 
     def get_queryset(self):
-        logging.getLogger("info_logger").info("User: " + self.request.user.rut)
+        logging.getLogger("info_logger").info("Cartolas Gremios User: " + self.request.user.rut)
         return Cartola.objects.filter(rut_gremio=self.request.user.rut)
     
 class LoadCartolasView(TemplateView):
