@@ -1,4 +1,8 @@
+from fpdf import FPDF
+from django.core.files import File
 from django.test import TestCase, Client
+import datetime as dt
+from django.utils import timezone
 
 from common.models import User
 from .models import Cartola, RutGremio
@@ -22,6 +26,20 @@ class ObjectsCreation(object):
         self.staffuser = User.objects.create_staffuser(rut='16747983-9', 
                                                         email='staffuser@test.cl',
                                                         password='pass.1234')
+
+        self.cartola_pdf = self.__create_dummy_pdf_file(self.rut_gremio.rut + "_20190601_20190615.pdf")
+        self.desde = timezone.make_aware(dt.datetime.strptime('20190601', '%Y%m%d'),timezone.get_default_timezone())
+        self.hasta = timezone.make_aware(dt.datetime.strptime('20190615', '%Y%m%d'),timezone.get_default_timezone())
+
+    def __create_dummy_pdf_file(self, filename):
+        pdf = FPDF()
+        pdf.add_page()
+        pdf.set_font("Arial", size=12)
+        pdf.cell(200, 10, txt="Dummy File!", ln=1, align="C")
+        pdf.output("files/cartolas_gremios/" + filename)
+    
+    def open_file(self, f):
+        return File(open(f, 'rb'))
 
 class GremiosPageTestCase(ObjectsCreation, TestCase):
     def test_gremios_cartolas_page_guest(self):
@@ -54,7 +72,25 @@ class RutGremioModelTestCase(ObjectsCreation, TestCase):
                 not_valid = True
         self.assertEqual(not_valid, True)
 
+class CartolasModelTestCase(ObjectsCreation, TestCase):
+    def test_create_cartola(self):
+        cartola_pdf = self.open_file("files/cartolas_gremios/12245453-3_20190601_20190615.pdf")
+        cartola = Cartola.objects.create_cartola(rut_gremio = self.rut_gremio.rut, desde=self.desde, hasta=self.hasta, pdf_file=cartola_pdf, file_name=cartola_pdf.name)
+        self.assertEqual(Cartola.objects.filter(rut_gremio=self.rut_gremio.rut).count() == 1, True)
+    
+    def test_create_from_path(self):
+        cartolas = Cartola.objects.create_from_path()
+        self.assertEqual(Cartola.objects.filter(rut_gremio=self.rut_gremio.rut).count() != 0, True)
+
 class LoadCartolasTestCase(ObjectsCreation, TestCase):
     def test_load_cartolas(self):
         response = self.client.get("/gremios/load")
         self.assertEqual(200, response.status_code)
+        self.assertIn("Cartolas cargadas", str(response.content))
+        self.assertEqual(Cartola.objects.filter(rut_gremio=self.rut_gremio.rut).count() == 1, True)
+    
+    def test_load_cartolas_empty_folder(self):
+        response = self.client.get("/gremios/load")
+        response = self.client.get("/gremios/load")
+        self.assertEqual(200, response.status_code)
+        self.assertIn("Error al cargar cartolas", str(response.content))
