@@ -1,3 +1,4 @@
+import logging
 from django.contrib.auth import authenticate, login, get_user_model, update_session_auth_hash
 from django.views.generic import (CreateView, 
                                   FormView, 
@@ -13,7 +14,6 @@ from django.views.decorators.debug import sensitive_post_parameters
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import PasswordContextMixin
-
 from .forms import (
                     LoginForm, 
                     RegisterForm,

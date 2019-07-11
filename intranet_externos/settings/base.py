@@ -153,3 +153,8 @@ LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = '/'
 
 LOGIN_URL = '/login/'
+
+try:
+    from .logger_settings import *
+except:
+    pass
