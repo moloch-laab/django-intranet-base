@@ -14,11 +14,13 @@ from django.views.decorators.debug import sensitive_post_parameters
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import PasswordContextMixin
+
 from .forms import (
                     LoginForm, 
                     RegisterForm,
                     PasswordChangeForm
                     )
+from gremios.models import RutGremio
 
 class RegisterView(CreateView):
     model = get_user_model()
@@ -29,6 +31,12 @@ class RegisterView(CreateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         return context
+    def form_valid(self, form):
+        user = form.save()
+        rut_gremio = RutGremio.objects.filter(rut=form.cleaned_data.get("rut")).first()
+        rut_gremio.user_id = user
+        rut_gremio.save()
+        return super().form_valid(form)
 
 class LoginView(FormView):
     template_name = "common/login.html"

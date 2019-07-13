@@ -10,6 +10,8 @@ from core.utils import ls, valida_rut, rm, rows_from_txt
 from common.models import User
 
 class RutGremioManager(models.Manager):
+    """Crea y almacena ruts de gremios."""
+
     def create_rut_gremio(self, rut):
         if not valida_rut(rut):
             return "Rut '%s' no válido" % (rut)
@@ -31,6 +33,10 @@ class RutGremioManager(models.Manager):
         return rut_gremios
     
 class RutGremio(models.Model):
+    """Todos los ruts pertenecientes a los gremios hípicos de Hipódromo Chile 
+    son representados por este modelo.
+    El rut está activo para registrarse por defecto."""
+    
     rut       = models.CharField('Rut de gremio', max_length=20, unique=True)
     active    = models.BooleanField(default=True) # can sign in
     timestamp = models.DateTimeField(auto_now_add=True)
@@ -45,6 +51,8 @@ class RutGremio(models.Model):
         return self.rut
 
 class CartolaManager(models.Manager):
+    """Crea y almacena cartolas de movimientos de gremios."""
+    
     def create_cartola(self, rut_gremio, desde, hasta, pdf_file, file_name):
         cartola_obj               = Cartola()
         cartola_obj.rut_gremio_id = rut_gremio
@@ -88,6 +96,10 @@ class CartolaManager(models.Manager):
         return fields
 
 class Cartola(models.Model):
+    """Las cartolas de movimientos de gremios de Hipódromo Chile 
+    son representadas por este modelo.
+    Las cartolas son visibles para el usuario por defecto"""
+
     rut_gremio_id = models.ForeignKey(to=RutGremio,
                                       on_delete=models.CASCADE, 
                                       blank=False, 

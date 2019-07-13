@@ -50,6 +50,13 @@ class GremiosPageTestCase(ObjectsCreation, TestCase):
         response = self.client.login(username=self.user.rut, password='pass.1234')
         response = self.client.get("/gremios/cartolas")
         self.assertEqual(200, response.status_code)
+    
+    def test_gremios_cartolas_page_datatable(self):
+        response = self.client.login(username=self.user.rut, password='pass.1234')
+        response = self.client.get("/gremios/load")
+        response = self.client.get("/gremios/cartolas")
+        print(str(response.content))
+        self.assertEqual(200, response.status_code)
 
 class RutGremioModelTestCase(ObjectsCreation, TestCase):
     def test_create_rut_gremio(self):
@@ -75,19 +82,19 @@ class RutGremioModelTestCase(ObjectsCreation, TestCase):
 class CartolasModelTestCase(ObjectsCreation, TestCase):
     def test_create_cartola(self):
         cartola_pdf = self.open_file("files/cartolas_gremios/12245453-3_20190601_20190615.pdf")
-        cartola = Cartola.objects.create_cartola(rut_gremio = self.rut_gremio.rut, desde=self.desde, hasta=self.hasta, pdf_file=cartola_pdf, file_name=cartola_pdf.name)
-        self.assertEqual(Cartola.objects.filter(rut_gremio=self.rut_gremio.rut).count() == 1, True)
+        cartola = Cartola.objects.create_cartola(rut_gremio = self.rut_gremio, desde=self.desde, hasta=self.hasta, pdf_file=cartola_pdf, file_name=cartola_pdf.name)
+        self.assertEqual(Cartola.objects.filter(rut_gremio_id=self.rut_gremio).count() == 1, True)
     
     def test_create_from_path(self):
         cartolas = Cartola.objects.create_from_path()
-        self.assertEqual(Cartola.objects.filter(rut_gremio=self.rut_gremio.rut).count() != 0, True)
+        self.assertEqual(Cartola.objects.filter(rut_gremio_id=self.rut_gremio).count() != 0, True)
 
 class LoadCartolasTestCase(ObjectsCreation, TestCase):
     def test_load_cartolas(self):
         response = self.client.get("/gremios/load")
         self.assertEqual(200, response.status_code)
         self.assertIn("Cartolas cargadas", str(response.content))
-        self.assertEqual(Cartola.objects.filter(rut_gremio=self.rut_gremio.rut).count() == 1, True)
+        self.assertEqual(Cartola.objects.filter(rut_gremio_id=self.rut_gremio).count() == 1, True)
     
     def test_load_cartolas_empty_folder(self):
         response = self.client.get("/gremios/load")

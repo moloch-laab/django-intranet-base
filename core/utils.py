@@ -54,7 +54,11 @@ def valida_rut(rut):
 def valida_rut_gremio(rut):
 	""" Return true if argument is in RutGremio model or false if not """
 	from gremios.models import RutGremio
-	if RutGremio.objects.filter(rut = rut).count() > 0:
-		return True
+	rut_gremio = RutGremio.objects.filter(rut = rut).first()
+	if rut_gremio:
+		if rut_gremio.active:
+			return True
+		else:
+			return False
 	else:
 		return False

@@ -10,11 +10,17 @@ class ObjectCreation(object):
                                              first_name='Test', 
                                              last_name='Testo', 
                                              password='pass.1234')
+        self.superuser = User.objects.create_superuser(rut='12384351-7',
+                                                       email='superuser@test.cl',
+                                                       password='pass.1234')
+        self.staffuser = User.objects.create_staffuser(rut='16747983-9', 
+                                                       email='staffuser@test.cl',
+                                                       password='pass.1234')
 
-    def login(self, email='test1@test.cl', password='pass.1234'):
+    def login(self, username='7264437-9', password='pass.1234'):
         url = '/login/'
         data = {
-            'email': email,
+            'rut': username,
             'password': password
         }
         self.client.post(url,data)
@@ -44,12 +50,12 @@ class HomeViewTestCase(ObjectCreation, TestCase):
 
     def test_home_page_login_inactive_user(self):
         response = self.register_user_post_method
-        response = self.login(email='test2@test.cl', password='pass.1234')
+        response = self.login(username='13064499-6', password='pass.1234')
         response = self.client.get('/')
         self.assertEqual(302, response.status_code)
         self.assertIn("/login/", str(response.url))
 
-class AdminPageTestCase(ObjectsCreation, TestCase):
+class AdminPageTestCase(ObjectCreation, TestCase):
     def test_admin_page_redirect_if_authenticated(self):
         data = {
             'rut': self.user.rut, 
@@ -61,7 +67,7 @@ class AdminPageTestCase(ObjectsCreation, TestCase):
 
     def test_admin_page_pass_if_staff_user(self):
         data = {
-            'rut': self.staff_user.rut, 
+            'rut': self.staffuser.rut, 
             'password': 'pass.1234',
         }
         response = self.client.post('/login/', data)
@@ -70,7 +76,7 @@ class AdminPageTestCase(ObjectsCreation, TestCase):
 
     def test_admin_page_pass_if_super_user(self):
         data = {
-            'rut': self.super_user.rut, 
+            'rut': self.superuser.rut, 
             'password': 'pass.1234',
         }
         response = self.client.post('/login/', data)
