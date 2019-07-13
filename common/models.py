@@ -62,17 +62,15 @@ class User(AbstractBaseUser, PermissionsMixin):
     Los campos email, rut y password son obligatorios """
 
     file_prepend = "users/profile_pics"
-    rut         = models.CharField(max_length=20, unique=True)
-    email       = models.EmailField(max_length=255, unique=True, blank=True, null=True)
-    first_name  = models.CharField(max_length=255, blank=True, null=True)
-    last_name   = models.CharField(max_length=255, blank=True, null=True)
-    active      = models.BooleanField(default=True) # can login 
-    staff       = models.BooleanField(default=False) # staff user non superuser
-    superuser   = models.BooleanField(default=False) # superuser 
-    timestamp   = models.DateTimeField(auto_now_add=True)
-    profile_pic = models.ImageField(max_length=1000, upload_to=img_url, null=True, blank=True)
-    # confirm     = models.BooleanField(default=False)
-    # confirmed_date     = models.DateTimeField(default=False)
+    rut          = models.CharField(max_length=20, unique=True)
+    email        = models.EmailField(max_length=255, unique=True, blank=True, null=True)
+    first_name   = models.CharField(max_length=255, blank=True, null=True)
+    last_name    = models.CharField(max_length=255, blank=True, null=True)
+    active       = models.BooleanField(default=True) # can login 
+    staff        = models.BooleanField(default=False) # staff user non superuser
+    superuser    = models.BooleanField(default=False) # superuser 
+    timestamp    = models.DateTimeField(auto_now_add=True)
+    profile_pic  = models.ImageField(max_length=1000, upload_to=img_url, null=True, blank=True)
 
     USERNAME_FIELD = 'rut' #username
     # USERNAME_FIELD and password are required by default
