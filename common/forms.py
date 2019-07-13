@@ -71,7 +71,7 @@ class RegisterForm(forms.ModelForm):
         """Guarda la contraseña en formato hash."""
         user = super(RegisterForm, self).save(commit=False)
         user.set_password(self.cleaned_data["password2"])
-        user.active = False # El usuario debe ser validado por el administrador.
+        # user.active = False # El usuario debe ser validado por el administrador.
         if commit:
             logging.getLogger("info_logger").info("Register User: " + user.rut)
             user.save()
