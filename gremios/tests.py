@@ -14,12 +14,7 @@ class ObjectsCreation(object):
         self.rut_gremio = RutGremio.objects.create_rut_gremio(rut='12245453-3')
         self.rut_gremios_list = ['15314993-3', '10634630-5', '9619616-4', '16747983-9', '15971053-K', '6597629-3']
         self.invalid_rut_gremios_list = ['1314993-3', '1063630-5', '961966-4', '1677983-9', '1971053-K', '659629-3']
-        self.user = User.objects.create_user(rut='12245453-3', password='pass.1234')
-        self.user = User.objects.create_user(rut='7264437-9', 
-                                             email='test1@test.cl', 
-                                             first_name='Test', 
-                                             last_name='Testo', 
-                                             password='pass.1234')
+        self.user = self.register_user_post_method()
         self.superuser = User.objects.create_superuser(rut='12384351-7',
                                                        email='superuser@test.cl',
                                                        password='pass.1234')
@@ -27,9 +22,22 @@ class ObjectsCreation(object):
                                                         email='staffuser@test.cl',
                                                         password='pass.1234')
 
-        self.cartola_pdf = self.__create_dummy_pdf_file(self.rut_gremio.rut + "_20190601_20190615.pdf")
         self.desde = timezone.make_aware(dt.datetime.strptime('20190601', '%Y%m%d'),timezone.get_default_timezone())
         self.hasta = timezone.make_aware(dt.datetime.strptime('20190615', '%Y%m%d'),timezone.get_default_timezone())
+        self.cartola_pdf = self.__create_dummy_pdf_file(self.rut_gremio.rut + "_20190601_20190615.pdf")
+    
+    def register_user_post_method(self):
+        url = '/register/'
+        data = {
+            'first_name': 'Juan',
+            'last_name': 'Perez',
+            'rut': self.rut_gremio.rut,
+            'email': 'test1@test.cl',
+            'password1': 'pass.1234',
+            'password2': 'pass.1234',
+        }
+        response = self.client.post(url, data)
+        return User.objects.filter(rut=self.rut_gremio.rut).first()
 
     def __create_dummy_pdf_file(self, filename):
         pdf = FPDF()
@@ -55,8 +63,7 @@ class GremiosPageTestCase(ObjectsCreation, TestCase):
         response = self.client.login(username=self.user.rut, password='pass.1234')
         response = self.client.get("/gremios/load")
         response = self.client.get("/gremios/cartolas")
-        print(str(response.content))
-        self.assertEqual(200, response.status_code)
+        self.assertIn("12245453-3_20190601_20190615", str(response.content))
 
 class RutGremioModelTestCase(ObjectsCreation, TestCase):
     def test_create_rut_gremio(self):
