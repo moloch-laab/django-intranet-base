@@ -10,7 +10,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'intranet_externos',
         'USER': 'admin_hch',
-        'PASSWORD': 'pass.1234',
+        'PASSWORD': 'E;_9jpXK',
         'HOST': 'localhost',
         'PORT': '5432',
     }
