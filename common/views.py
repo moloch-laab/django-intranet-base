@@ -15,6 +15,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import PasswordContextMixin
 
+from core.utils import get_client_ip
 from .forms import (
                     LoginForm, 
                     RegisterForm,
@@ -27,21 +28,28 @@ class RegisterView(CreateView):
     form_class = RegisterForm
     template_name = 'common/register.html'
     success_url = '/login/'
-
+    log_message = "Register User: {0} From: {1}"
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         return context
     def form_valid(self, form):
         user = form.save()
+        logging.getLogger("info_logger").info(self.log_message.format(user.rut, get_client_ip(self.request)))
         rut_gremio = RutGremio.objects.filter(rut=form.cleaned_data.get("rut")).first()
         rut_gremio.user_id = user
         rut_gremio.save()
         return super().form_valid(form)
 
+    def form_invalid(self, form):
+        rut = form.cleaned_data.get("rut")
+        logging.getLogger("error_logger").error(self.log_message.format(rut, get_client_ip(self.request)))
+        return super().form_invalid(form)
+
 class LoginView(FormView):
     template_name = "common/login.html"
     form_class = LoginForm
     success_url = '/'
+    log_message = "Login User: {0} From: {1}"
     def dispatch(self, request, *args, **kwargs):
         if request.user.is_authenticated:
             return HttpResponseRedirect('/')
@@ -54,15 +62,21 @@ class LoginView(FormView):
         user = authenticate(request, username=rut, password=password)
         if user is not None:
             login(request, user)
-            logging.getLogger("info_logger").info("Login User: " + user.rut)
+            logging.getLogger("info_logger").info(self.log_message.format(user.rut, get_client_ip(self.request)))
             return redirect("/")
         return super(LoginView, self).form_invalid(form)
+
+    def form_invalid(self, form):
+        rut = form.cleaned_data.get("rut")
+        logging.getLogger("error_logger").error(self.log_message.format(rut, get_client_ip(self.request)))
+        return super().form_invalid(form)
 
 class PasswordChangeView(PasswordContextMixin, FormView):
     form_class = PasswordChangeForm
     success_url = '/'
     template_name = 'common/change-password.html'
     title = _('Password change')
+    log_message = "Password Change User: {0} From: {1}"
 
     @method_decorator(sensitive_post_parameters())
     @method_decorator(csrf_protect)
@@ -80,5 +94,10 @@ class PasswordChangeView(PasswordContextMixin, FormView):
         # Updating the password logs out all other sessions for the user
         # except the current one.
         update_session_auth_hash(self.request, form.user)
-        logging.getLogger("info_logger").info("Password Change User: " + self.request.user.rut)
+        logging.getLogger("info_logger").info(self.log_message.format(self.request.user.rut, get_client_ip(self.request)))
         return super().form_valid(form)
+    
+    def form_invalid(self, form):
+        rut = form.cleaned_data.get("rut")
+        logging.getLogger("error_logger").error(self.log_message.format(rut, get_client_ip(self.request)))
+        return super().form_invalid(form)

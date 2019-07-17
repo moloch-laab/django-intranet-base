@@ -109,3 +109,6 @@ venv.bak/
 # Local folders
 files/
 media/
+
+# log files
+.log.*
