@@ -21,8 +21,10 @@
 <body class="hold-transition login-page">
 <div class="{% block body_class %}{% endblock body_class %}">
   <div class="login-logo">
-    <img src="{% static 'core/img/logo_hch.png' %}" class="img-fluid ${3|rounded-top,rounded-right,rounded-bottom,rounded-left,rounded-circle,|}" alt="">
-    <a href="/"><b>Intranet Externos</b></a>
+    <a href="/">
+      <img src="{% static 'core/img/logo/logo_hch.png' %}" class="img-fluid ${3|rounded-top,rounded-right,rounded-bottom,rounded-left,rounded-circle,|}" alt="">
+      <b>Intranet Externos</b>
+    </a>
   </div>
   <!-- /.login-logo -->
   {% block content %}{% endblock content %}
