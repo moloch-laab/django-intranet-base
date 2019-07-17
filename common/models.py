@@ -3,6 +3,7 @@ import time
 from django.contrib.auth.models import (
     AbstractBaseUser, BaseUserManager, PermissionsMixin
 )
+from simple_email_confirmation.models import SimpleEmailConfirmationUserMixin
 
 from core.utils import valida_rut
 
