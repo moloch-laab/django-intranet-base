@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     #third party apps
     'menu_generator',
     'fpdf',
+    'simple_email_confirmation',
 ]
 
 AUTH_USER_MODEL = 'common.User'

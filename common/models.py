@@ -55,7 +55,7 @@ def img_url(self, filename):
     hash_ = int(time.time())
     return "%s/%s/%s" % ("profile_pics", hash_, filename)
 
-class User(AbstractBaseUser, PermissionsMixin):
+class User(SimpleEmailConfirmationUserMixin, AbstractBaseUser, PermissionsMixin):
     """ Los usuarios dentro del sistema de autenticación de Django están
     representados por este model.
     
