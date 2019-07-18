@@ -1,19 +1,26 @@
 import logging
-from django.contrib.auth import authenticate, login, get_user_model, update_session_auth_hash
+from django.core.mail import send_mail
 from django.views.generic import (CreateView, 
                                   FormView, 
-                                  TemplateView)
+                                  TemplateView,
+                                  View)
 from django.http import (HttpResponseRedirect)
-from django.contrib.auth import logout, authenticate, login
-from django.shortcuts import render,redirect
-from django.urls import reverse
-from django.utils.translation import gettext_lazy as _
+from django.shortcuts import render, redirect, resolve_url
+from django.template.loader import render_to_string
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.decorators import method_decorator
+from django.utils.translation import gettext_lazy as _
+from django.utils.encoding import force_bytes, force_text
 from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.debug import sensitive_post_parameters
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth import (authenticate,
+                                 login, 
+                                 get_user_model, 
+                                 update_session_auth_hash)
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import PasswordContextMixin
+from django.contrib.auth.decorators import login_required
+from django.contrib.sites.shortcuts import get_current_site
 
 from core.utils import get_client_ip
 from .forms import (
@@ -23,27 +30,52 @@ from .forms import (
                     )
 from gremios.models import RutGremio
 
+User = get_user_model()
+
 class RegisterView(CreateView):
-    model = get_user_model()
+    model = User
     form_class = RegisterForm
     template_name = 'common/register.html'
     success_url = '/login/'
     log_message = "Register User: {0} From: {1}"
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         return context
+
     def form_valid(self, form):
         user = form.save()
-        logging.getLogger("info_logger").info(self.log_message.format(user.rut, get_client_ip(self.request)))
         rut_gremio = RutGremio.objects.filter(rut=form.cleaned_data.get("rut")).first()
         rut_gremio.user_id = user
         rut_gremio.save()
-        return super().form_valid(form)
+        self.__confirmation_email_sender(user)
+        logging.getLogger("info_logger").info(self.log_message.format(user.rut, get_client_ip(self.request)))
+        super().form_valid(form)
+        return render(self.request, 'common/redirect.html', {'message': 'Debe validar su dirección de correo.', 
+                                                             'url_redirect': resolve_url('common:login')})
 
     def form_invalid(self, form):
         rut = form.cleaned_data.get("rut")
         logging.getLogger("error_logger").error(self.log_message.format(rut, get_client_ip(self.request)))
         return super().form_invalid(form)
+
+    def __confirmation_email_sender(self, user):
+        current_site = get_current_site(self.request)
+        mail_message = {
+            "subject": "Active su cuenta",
+            "message": render_to_string('common/acc_active_email.html', {
+                'user': user,
+                'domain': current_site.domain,
+                'uid':urlsafe_base64_encode(force_bytes(user.pk)),
+                'token':user.confirmation_key,
+            })
+        }
+        try:
+            send_mail(mail_message["subject"], mail_message["message"], None, (user.email,))
+        except:
+            return logging.getLogger("error_logger").error("Error sending mail to: {0}".format(user.email))
+        logging.getLogger("info_logger").info("Mail send to: {0}".format(user.email))
+        
 
 class LoginView(FormView):
     template_name = "common/login.html"
@@ -101,3 +133,20 @@ class PasswordChangeView(PasswordContextMixin, FormView):
         rut = form.cleaned_data.get("rut")
         logging.getLogger("error_logger").error(self.log_message.format(rut, get_client_ip(self.request)))
         return super().form_invalid(form)
+
+class Activate(View):
+    def get(self, request, uidb64, token, *args, **kwargs):
+        try:
+            uid = force_text(urlsafe_base64_decode(uidb64))
+            user = User.objects.get(pk=uid)
+            user_email = user.confirm_email(token)
+        except(TypeError, ValueError, OverflowError, User.DoesNotExist):
+            user = None
+        if user is not None and user.is_confirmed:
+            user.active = True
+            user.save()
+            login(request, user)
+            return render(request, 'common/redirect.html', {'message': 'Su cuenta ha sido activada.', 
+                                                            'url_redirect': resolve_url('core:home')})
+        else:
+            return HttpResponse('Enlace de activación inválido!')

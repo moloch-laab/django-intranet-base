@@ -23,7 +23,8 @@ class RegisterForm(forms.ModelForm):
     last_name   = forms.CharField(max_length=255, label="Apellidos", 
                                   widget=forms.TextInput(attrs={'class': 'form-control'}))
     rut         = forms.CharField(max_length=20, label="Rut", 
-                                  widget=forms.TextInput(attrs={'class': 'form-control'}))
+                                  widget=forms.TextInput(attrs={'class': 'form-control', 
+                                                                'placeholder': '12345678-9'}))
     email       = forms.EmailField(max_length=255, label="Email", 
                                    widget=forms.TextInput(attrs={'class': 'form-control'}))
     # profile_pic = forms.ImageField(max_length=1000, label="Foto de perfil", 
@@ -70,7 +71,7 @@ class RegisterForm(forms.ModelForm):
         """Guarda la contraseña en formato hash."""
         user = super(RegisterForm, self).save(commit=False)
         user.set_password(self.cleaned_data["password2"])
-        # user.active = False # El usuario debe ser validado por el administrador.
+        user.active = False # El usuario debe validar su correo electrónico.
         if commit:
             user.save()
         return user
@@ -81,7 +82,7 @@ class LoginForm(forms.ModelForm):
 
     error_messages = {
         'invalid_credentials': 'Nombre de usuario y/o contraseña inválido.',
-        'user_inactive': 'Usuario inactivo, favor comuniquese con el administrador del sistema.',
+        'user_inactive': 'Usuario inactivo, favor active su cuenta desde el enlace enviado por correo electrónico o comuniquese con nosotros.',
     }
 
     rut = forms.CharField(max_length=20, label="Rut", 

@@ -21,7 +21,7 @@ class ObjectCreation(object):
         self.rut_gremio = RutGremio.objects.create_rut_gremio('13064499-6')
         self.valid_rut = '13064499-6'
         self.invalid_rut = '1306499-6'
-        self.valid_email = 'test2@test.cl'
+        self.valid_email = 'francisco.bahamondes90@gmail.com'
 
     def login(self, username='7264437-9', password='pass.1234'):
         url = '/login/'

@@ -1,0 +1,15 @@
+{% extends 'core/base_guest.html' %}
+{% block title %}Iniciar Sesión{% endblock %}
+{% block body_class %}login-box{% endblock body_class %}
+{% block content %}
+<h1 class="text-center">{{ message }}</h1>
+{% endblock content %}
+{% block additional_js %}
+<script>
+    function redirect(){
+       window.location.href = '{{ url_redirect }}';
+    }
+
+    setTimeout(redirect, 2000); //2000 is equivalent to 2 seconds
+</script>
+{% endblock additional_js %}
