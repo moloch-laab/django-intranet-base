@@ -143,7 +143,7 @@ class Activate(View):
         except(TypeError, ValueError, OverflowError, User.DoesNotExist):
             user = None
         if user is not None and user.is_confirmed:
-            user.active = True
+            user.is_active = True
             user.save()
             login(request, user)
             return render(request, 'common/redirect.html', {'message': 'Su cuenta ha sido activada.', 

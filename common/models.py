@@ -22,9 +22,9 @@ class UserManager(BaseUserManager):
         user_obj.last_name = last_name
         user_obj.email = self.normalize_email(email)
         user_obj.set_password(password) # change user password
-        user_obj.staff = is_staff
-        user_obj.superuser = is_superuser
-        user_obj.active = is_active
+        user_obj.is_staff = is_staff
+        user_obj.is_superuser = is_superuser
+        user_obj.is_active = is_active
         user_obj.profile_pic = profile_pic
         user_obj.save(using=self._db)
         return user_obj
@@ -67,9 +67,9 @@ class User(SimpleEmailConfirmationUserMixin, AbstractBaseUser, PermissionsMixin)
     email        = models.EmailField(max_length=255, unique=True, blank=True, null=True)
     first_name   = models.CharField(max_length=255, blank=True, null=True)
     last_name    = models.CharField(max_length=255, blank=True, null=True)
-    active       = models.BooleanField(default=True) # can login 
-    staff        = models.BooleanField(default=False) # staff user non superuser
-    superuser    = models.BooleanField(default=False) # superuser 
+    is_active    = models.BooleanField(default=True) # can login 
+    is_staff     = models.BooleanField(default=False) # staff user non superuser
+    is_superuser = models.BooleanField(default=False) # superuser 
     timestamp    = models.DateTimeField(auto_now_add=True)
     profile_pic  = models.ImageField(max_length=1000, upload_to=img_url, null=True, blank=True)
 
@@ -99,15 +99,4 @@ class User(SimpleEmailConfirmationUserMixin, AbstractBaseUser, PermissionsMixin)
     # def has_module_perms(self, app_label):
     #     return True
 
-    @property
-    def is_staff(self):
-        return self.staff
-
-    @property
-    def is_superuser(self):
-        return self.superuser
-
-    @property
-    def is_active(self):
-        return self.active
 

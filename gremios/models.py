@@ -38,7 +38,7 @@ class RutGremio(models.Model):
     El rut está activo para registrarse por defecto."""
     
     rut       = models.CharField('Rut de gremio', max_length=20, unique=True)
-    active    = models.BooleanField(default=True) # can sign in
+    is_active = models.BooleanField(default=True) # can sign in
     timestamp = models.DateTimeField(auto_now_add=True)
     updated   = models.DateTimeField(auto_now=True)
     user_id   = models.ForeignKey(to=settings.AUTH_USER_MODEL,
@@ -110,7 +110,7 @@ class Cartola(models.Model):
     pdf_file      = models.FileField("Archivo PDF de cartola",
                                      upload_to="../media/cartolas_gremios", 
                                      max_length=300)
-    active        = models.BooleanField(default=True) # can show in datatable
+    is_active     = models.BooleanField(default=True) # can show in datatable
     updated       = models.DateTimeField(auto_now=True)
     objects       = CartolaManager()
     

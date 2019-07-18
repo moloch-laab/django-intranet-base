@@ -71,7 +71,7 @@ class RegisterForm(forms.ModelForm):
         """Guarda la contraseña en formato hash."""
         user = super(RegisterForm, self).save(commit=False)
         user.set_password(self.cleaned_data["password2"])
-        user.active = False # El usuario debe validar su correo electrónico.
+        user.is_active = False # El usuario debe validar su correo electrónico.
         if commit:
             user.save()
         return user
@@ -241,7 +241,7 @@ class UserAdminCreationForm(forms.ModelForm):
         """Guarda la contraseña en formato hash."""
         user = super(UserAdminCreationForm, self).save(commit=False)
         user.set_password(self.cleaned_data["password2"])
-        user.active = False # El usuario debe ser validado por el administrador.
+        user.is_active = False # El usuario debe ser validado por el administrador.
         if commit:
             user.save()
         return user

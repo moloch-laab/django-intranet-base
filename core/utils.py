@@ -56,7 +56,7 @@ def valida_rut_gremio(rut):
 	from gremios.models import RutGremio
 	rut_gremio = RutGremio.objects.filter(rut = rut).first()
 	if rut_gremio:
-		if rut_gremio.active:
+		if rut_gremio.is_active:
 			return True
 		else:
 			return False

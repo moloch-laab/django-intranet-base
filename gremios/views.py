@@ -24,6 +24,7 @@ class CartolasListView(LoginRequiredMixin, ListView):
         return super().dispatch(request, *args, **kwargs)
     
 class LoadCartolasView(TemplateView):
+    log_message = "{0} From: {1}"
     def get(self, request, *args, **kwargs):
         model = Cartola()
         new_ruts = RutGremio.objects.create_rut_from_file()

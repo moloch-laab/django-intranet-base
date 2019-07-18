@@ -15,7 +15,7 @@ class ObjectCreation(object):
                                              first_name='Test', 
                                              last_name='Testo', 
                                              password='pass.1234')
-        self.superuser = User.objects.create_superuser(rut='12384351-7',
+        self.is_superuser = User.objects.create_superuser(rut='12384351-7',
                                                        email='superuser@test.cl',
                                                        password='pass.1234')
         self.rut_gremio = RutGremio.objects.create_rut_gremio('13064499-6')
@@ -117,8 +117,7 @@ class RegisterUserTestCase(ObjectCreation, TestCase):
         }
         response = self.client.post(url, data)
         self.assertEqual(User.objects.filter(rut=self.valid_rut).count(), 1)
-        self.assertEqual(302, response.status_code)
-        self.assertEqual("/login/", str(response.url))
+        self.assertIn("Debe validar su direcc", str(response.content))
 
     def test_register_user_post_method_rut_invalid(self):
         url = '/register/'

@@ -15,10 +15,10 @@ class ObjectsCreation(object):
         self.rut_gremios_list = ['15314993-3', '10634630-5', '9619616-4', '16747983-9', '15971053-K', '6597629-3']
         self.invalid_rut_gremios_list = ['1314993-3', '1063630-5', '961966-4', '1677983-9', '1971053-K', '659629-3']
         self.user = self.register_user_post_method()
-        self.superuser = User.objects.create_superuser(rut='12384351-7',
+        self.is_superuser = User.objects.create_superuser(rut='12384351-7',
                                                        email='superuser@test.cl',
                                                        password='pass.1234')
-        self.staffuser = User.objects.create_staffuser(rut='16747983-9', 
+        self.is_staffuser = User.objects.create_staffuser(rut='16747983-9', 
                                                         email='staffuser@test.cl',
                                                         password='pass.1234')
 
@@ -37,7 +37,11 @@ class ObjectsCreation(object):
             'password2': 'pass.1234',
         }
         response = self.client.post(url, data)
-        return User.objects.filter(rut=self.rut_gremio.rut).first()
+        user = User.objects.filter(rut=self.rut_gremio.rut).first()
+        user.confirm_email(user.confirmation_key)
+        user.is_active = user.is_confirmed
+        user.save()
+        return user
 
     def __create_dummy_pdf_file(self, filename):
         pdf = FPDF()

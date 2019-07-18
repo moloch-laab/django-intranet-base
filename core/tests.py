@@ -10,10 +10,10 @@ class ObjectCreation(object):
                                              first_name='Test', 
                                              last_name='Testo', 
                                              password='pass.1234')
-        self.superuser = User.objects.create_superuser(rut='12384351-7',
+        self.is_superuser = User.objects.create_superuser(rut='12384351-7',
                                                        email='superuser@test.cl',
                                                        password='pass.1234')
-        self.staffuser = User.objects.create_staffuser(rut='16747983-9', 
+        self.is_staffuser = User.objects.create_staffuser(rut='16747983-9', 
                                                        email='staffuser@test.cl',
                                                        password='pass.1234')
 
@@ -67,7 +67,7 @@ class AdminPageTestCase(ObjectCreation, TestCase):
 
     def test_admin_page_pass_if_staff_user(self):
         data = {
-            'rut': self.staffuser.rut, 
+            'rut': self.is_staffuser.rut, 
             'password': 'pass.1234',
         }
         response = self.client.post('/login/', data)
@@ -76,7 +76,7 @@ class AdminPageTestCase(ObjectCreation, TestCase):
 
     def test_admin_page_pass_if_super_user(self):
         data = {
-            'rut': self.superuser.rut, 
+            'rut': self.is_superuser.rut, 
             'password': 'pass.1234',
         }
         response = self.client.post('/login/', data)
