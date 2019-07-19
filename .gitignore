@@ -107,7 +107,9 @@ venv.bak/
 .vscode
 
 # Local folders
-files/
+files/cartolas_gremios/*.txt
+files/cartolas_gremios/*.pdf
+
 media/
 
 # log files

@@ -27,7 +27,7 @@ class LoadCartolasView(TemplateView):
     log_message = "{0} From: {1}"
     def get(self, request, *args, **kwargs):
         model = Cartola()
-        new_ruts = RutGremio.objects.create_rut_from_file()
+        # new_ruts = RutGremio.objects.create_rut_from_file()
         resultado = Cartola.objects.create_from_path()
         log_message = "GET Load Cartolas Message: {0} From: {1}"
 

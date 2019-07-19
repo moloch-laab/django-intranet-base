@@ -15,6 +15,8 @@ class RutGremioManager(models.Manager):
     def create_rut_gremio(self, rut):
         if not valida_rut(rut):
             return "Rut '%s' no válido" % (rut)
+        if RutGremio.objects.filter(rut = rut).count() > 0:
+            return RutGremio.objects.filter(rut = rut).first()
         rut_gremio_obj = RutGremio()
         rut_gremio_obj.rut = rut
         rut_gremio_obj.save()
@@ -28,8 +30,7 @@ class RutGremioManager(models.Manager):
     def create_from_list(self, rows):
         rut_gremios= []
         for rut in rows:
-            if RutGremio.objects.filter(rut = rut).count() == 0:
-                rut_gremios.append(self.create_rut_gremio(rut))
+            rut_gremios.append(self.create_rut_gremio(rut))
         return rut_gremios
     
 class RutGremio(models.Model):
@@ -71,8 +72,8 @@ class CartolaManager(models.Manager):
                 pdf_file = self.__open_file(os.path.join(path_in,f))
                 # Obtenemos los campos del modelo desde el nombre del archivo
                 fields = self.__fields_from_file(f)
-                # Obtenemos el Rut de Gremio
-                rut_gremio = RutGremio.objects.filter(rut=fields["rut_gremio"]).first()
+                # Creamos el Rut de Gremio
+                rut_gremio = RutGremio.objects.create_rut_gremio(rut=fields["rut_gremio"])
                 # Guardamos los datos en la base de datos
                 cartolas.append(self.create_cartola(rut_gremio, 
                                                     fields["desde"], 
