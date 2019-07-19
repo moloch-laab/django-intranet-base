@@ -39,10 +39,10 @@
         </div>
       </form>
     {% endif %}
-    <p class="mb-1">
-      {% comment %} <a href="#">Olvidé mi contraseña</a> {% endcomment %}
-    </p>
     <p class="mb-0">
+      <a href="{% url 'password_reset' %}">Olvidé mi contraseña</a>
+    </p>
+    <p class="mb-1">
       <a href="/register/" class="text-center">Registrar nuevo usuario</a>
     </p>
   </div>

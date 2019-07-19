@@ -14,7 +14,7 @@
           {% comment %} <div class="icheck-primary">
             <input type="checkbox" id="agreeTerms" name="terms" value="agree">
             <label for="agreeTerms">
-              Estoy de acuerdo con los <a href="#">Terminos y Condiciones</a>
+              Autorizo a Hipódromo Chile a almacenar mi información personal 
             </label>
           </div> {% endcomment %}
         </div>
@@ -25,8 +25,13 @@
         <!-- /.col -->
       </div>
     </form>
-
-    <a href="/login/" class="text-center">Ya tengo cuenta</a>
+    <p class="mb-0">
+      <a href="{% url 'common:login' %}" class="text-center">Ya tengo cuenta</a>
+    </p>
+    <p class="mb-1">
+      <a href="{% url 'password_reset' %}">Olvidé mi contraseña</a>
+    </p>
+    
   </div>
   <!-- /.form-box -->
 </div><!-- /.card -->
