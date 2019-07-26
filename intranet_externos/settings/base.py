@@ -142,7 +142,7 @@ STATIC_URL = '/static/'
 
 STATICFILES_DIRS = (
   os.path.join('static'),
-  '/home/intranet_externos/intranet_externos/static/',
+  os.path.join(BASE_DIR, "static/"),
 )
 
 # Media files
