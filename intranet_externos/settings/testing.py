@@ -1,5 +1,10 @@
 from .base import *
 
+STATICFILES_DIRS = (
+    os.path.join('static'),
+    os.path.join(BASE_DIR, "static/"),
+)
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
