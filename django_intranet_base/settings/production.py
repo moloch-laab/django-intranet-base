@@ -1,21 +1,16 @@
 from .base import *
 
-STATICFILES_DIRS = (
-    os.path.join('static'),
-    os.path.join(BASE_DIR, "static/"),
-)
-
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ['10.10.10.85']
+ALLOWED_HOSTS = ['*']
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'intranet_externos',
+        'NAME': 'django_intranet_base',
         'USER': 'admin_hch',
-        'PASSWORD': 'pass.1234',
+        'PASSWORD': 'E;_9jpXK',
         'HOST': 'localhost',
         'PORT': '5432',
     }
@@ -26,3 +21,5 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'fbahamondes@hipodromochile.cl'
 EMAIL_HOST_PASSWORD = 'pASSword2015'
 EMAIL_PORT = 587
+
+STATIC_ROOT = os.path.join(BASE_DIR, "static/")

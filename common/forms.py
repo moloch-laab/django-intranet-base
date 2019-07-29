@@ -3,7 +3,7 @@ from django.contrib.auth import authenticate, login, get_user_model, password_va
 from django.contrib.auth.forms import ReadOnlyPasswordHashField, SetPasswordForm
 from django.utils.translation import gettext, gettext_lazy as _
 
-from core.utils import valida_rut, valida_rut_gremio
+from core.utils import valida_rut
 
 User = get_user_model()
 
@@ -59,11 +59,6 @@ class RegisterForm(forms.ModelForm):
             raise forms.ValidationError(
                 self.error_messages['invalid_rut'],
                 code='invalid_rut',
-            )
-        if not valida_rut_gremio(rut):
-            raise forms.ValidationError(
-                self.error_messages['not_gremio_rut'],
-                code='not_gremio_rut',
             )
         return rut
     

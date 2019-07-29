@@ -5,7 +5,6 @@ from django.contrib.admin.sites import AdminSite
 
 from .admin import UserAdmin
 from .models import User
-from gremios.models import RutGremio
 
 class ObjectCreation(object):
     def setUp(self):
@@ -18,7 +17,6 @@ class ObjectCreation(object):
         self.is_superuser = User.objects.create_superuser(rut='12384351-7',
                                                        email='superuser@test.cl',
                                                        password='pass.1234')
-        self.rut_gremio = RutGremio.objects.create_rut_gremio('13064499-6')
         self.valid_rut = '13064499-6'
         self.invalid_rut = '1306499-6'
         self.valid_email = 'francisco.bahamondes90@gmail.com'

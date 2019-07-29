@@ -51,18 +51,6 @@ def valida_rut(rut):
 	else:
 		return False
 
-def valida_rut_gremio(rut):
-	""" Return true if argument is in RutGremio model or false if not """
-	from gremios.models import RutGremio
-	rut_gremio = RutGremio.objects.filter(rut = rut).first()
-	if rut_gremio:
-		if rut_gremio.is_active:
-			return True
-		else:
-			return False
-	else:
-		return False
-
 def get_client_ip(request):
     x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
     if x_forwarded_for:

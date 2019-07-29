@@ -1,10 +1,10 @@
-# intranet_externos
+# django_intranet_base
 Sistema dedicado a la publicación de documentos para gremios hípicos
 
 # Instalación
 
 Clonar el repositorio del proyecto en la capeta deseada:
-    git clone https://github.com/fbahamondes/intranet_externos
+    git clone https://github.com/fbahamondes/django_intranet_base
 
 Aseurarse de que se encuentra en la última versión.
 
@@ -21,7 +21,7 @@ Ejecutamos lo siguiente:
 
 Configurar el entorno en el cual se encuentra la aplicación agregando al archivo .batch_profile la siguiente linea.
 
-    export DJANGO_SETTINGS_MODULE=intranet_externos.settings.production
+    export DJANGO_SETTINGS_MODULE=django_intranet_base.settings.production
 
 Una vez realizado esto, deberá configurar la información de las credenciales de su base de datos
 
@@ -29,7 +29,7 @@ Una vez realizado esto, deberá configurar la información de las credenciales d
         "default": {
           "ENGINE": "django.db.backends.postgresql_psycopg2",
           "HOST": "localhost",
-          "NAME": "intranet_externos",
+          "NAME": "django_intranet_base",
           "USER": "admin",
           "PASSWORD": "admin",
           "PORT": 5432

@@ -28,7 +28,7 @@ from .forms import (
                     RegisterForm,
                     PasswordChangeForm
                     )
-from gremios.models import RutGremio
+#from gremios.models import RutGremio
 
 User = get_user_model()
 
@@ -45,9 +45,6 @@ class RegisterView(CreateView):
 
     def form_valid(self, form):
         user = form.save()
-        rut_gremio = RutGremio.objects.filter(rut=form.cleaned_data.get("rut")).first()
-        rut_gremio.user_id = user
-        rut_gremio.save()
         self.__confirmation_email_sender(user)
         logging.getLogger("info_logger").info(self.log_message.format(user.rut, get_client_ip(self.request)))
         super().form_valid(form)
