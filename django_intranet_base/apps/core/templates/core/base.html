@@ -1,3 +1,5 @@
+{% load i18n static solo_tags %}
+{% get_solo 'core.SiteConfiguration' as site_config %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
 
-  <title>{% block title %}{% endblock %} | Intranet Externos</title>
+  <title>{% block title %}{% endblock %} | {{ site_config.site_name }}</title>
   {% load static %}
   <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="{% static 'core/plugins/fontawesome-free/css/all.min.css' %}">
