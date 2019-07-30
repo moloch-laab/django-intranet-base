@@ -132,6 +132,7 @@ class PasswordChangeView(PasswordContextMixin, FormView):
         return super().form_invalid(form)
 
 class Activate(View):
+    log_message = "User activate: {0} From: {1}"
     def get(self, request, uidb64, token, *args, **kwargs):
         try:
             uid = force_text(urlsafe_base64_decode(uidb64))
@@ -143,7 +144,9 @@ class Activate(View):
             user.is_active = True
             user.save()
             login(request, user)
+            logging.getLogger("info_logger").info(self.log_message.format(user.rut, get_client_ip(self.request)))
             return render(request, 'common/redirect.html', {'message': 'Su cuenta ha sido activada.', 
                                                             'url_redirect': resolve_url('core:home')})
         else:
+            logging.getLogger("error_logger").error(self.log_message.format(None, get_client_ip(self.request)))
             return HttpResponse('Enlace de activación inválido!')
