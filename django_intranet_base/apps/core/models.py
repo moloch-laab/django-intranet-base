@@ -5,7 +5,7 @@ from solo.models import SingletonModel
 
 
 class SiteConfiguration(SingletonModel):
-    site_name = models.CharField(max_length=255, default='djflow')
+    site_name = models.CharField(max_length=255, default='django_intranet_base')
 
     def __str__(self):
         return self.site_name
