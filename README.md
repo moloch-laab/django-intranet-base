@@ -1,10 +1,10 @@
 # django_intranet_base
-Sistema dedicado a la publicación de documentos para gremios hípicos
+Base para generar una intranet utilizando Django y AdminLTE
 
 # Instalación
 
 Clonar el repositorio del proyecto en la capeta deseada:
-    git clone https://github.com/fbahamondes/django_intranet_base
+    git clone https://github.com/moloch-laab/django_intranet_base
 
 Aseurarse de que se encuentra en la última versión.
 
