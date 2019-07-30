@@ -21,6 +21,7 @@ THIRD_PARTY_APPS = (
     'menu_generator',
     'fpdf',
     'simple_email_confirmation',
+    'solo',
 )
 
 
