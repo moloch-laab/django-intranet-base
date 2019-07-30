@@ -3,7 +3,7 @@ from django.contrib.auth import authenticate, login, get_user_model, password_va
 from django.contrib.auth.forms import ReadOnlyPasswordHashField, SetPasswordForm
 from django.utils.translation import gettext, gettext_lazy as _
 
-from core.utils import valida_rut
+from django_intranet_base.apps.general_functions import valida_rut
 
 User = get_user_model()
 

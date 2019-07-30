@@ -22,7 +22,7 @@ from django.contrib.auth.views import PasswordContextMixin
 from django.contrib.auth.decorators import login_required
 from django.contrib.sites.shortcuts import get_current_site
 
-from core.utils import get_client_ip
+from django_intranet_base.apps.general_functions import get_client_ip
 from .forms import (
                     LoginForm, 
                     RegisterForm,

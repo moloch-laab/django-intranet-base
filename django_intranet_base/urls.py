@@ -3,8 +3,8 @@ from django.urls import include, path
 from django.conf import settings
 from django.conf.urls.static import static
 
-from core.urls import core_patterns
-from common.urls import common_patterns
+from django_intranet_base.apps.core.urls import core_patterns
+from django_intranet_base.apps.common.urls import common_patterns
 
 urlpatterns = [
     path('', include(core_patterns)),

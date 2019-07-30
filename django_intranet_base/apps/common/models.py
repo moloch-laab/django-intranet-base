@@ -5,7 +5,7 @@ from django.contrib.auth.models import (
 )
 from simple_email_confirmation.models import SimpleEmailConfirmationUserMixin
 
-from core.utils import valida_rut
+from django_intranet_base.apps.general_functions import valida_rut
 
 class UserManager(BaseUserManager):
     """ Crea y almacena users, staffusers y superusers """

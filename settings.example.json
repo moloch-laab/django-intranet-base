@@ -1,0 +1,43 @@
+{
+  "TIME_ZONE": "America/Santiago",
+  "LANGUAGE_CODE": "es",
+  "SECRET_KEY": "jcxw@ac_rkrm=r9pld6h7imz375wihv=7f+tm&u3^r02gk0dm!",
+  "DB": {
+    "default": {
+      "ENGINE": "django.db.backends.sqlite3",
+      "NAME": "db.sqlite3"
+    }
+  },
+  "AUTH_PASSWORD_VALIDATORS": [
+    {
+        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"
+    },
+    {
+        "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator"
+    },
+    {
+        "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator"
+    },
+    {
+        "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"
+    }
+  ],
+  "SECURITY": {
+    "ALLOWED_HOSTS": [
+      "localhost"
+    ]
+  },
+  "DEBUG": true,
+  "URL_SERVER": "http://localhost:8000",
+  "DEFAULT_URL_USERPROFILE": "/static/img/user-default.jpg",
+  "EMAIL": {
+    "EMAIL_USE_TLS": true,
+    "EMAIL_HOST": "smtp.gmail.com",
+    "EMAIL_PORT": 587,
+    "EMAIL_BACKEND": "django.core.mail.backends.smtp.EmailBackend",
+    "EMAIL_HOST_USER": "demo@demo.com",
+    "EMAIL_HOST_PASSWORD": "password",
+    "DEFAULT_FROM_EMAIL": "demo.server.com",
+    "CONTACT_EMAIL": "demo@demo.com"
+  }
+}

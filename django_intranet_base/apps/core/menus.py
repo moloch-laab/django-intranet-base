@@ -1,15 +1,15 @@
 MENUS = {
     'MAIN_SIDEBAR': [
         {
-            "name": "Gremios",
+            "name": "Prueba",
             "icon": "fa-book",
             "url": "#",
             "validators": ["menu_generator.validators.is_authenticated"],
             "submenu": [
                 {
-                    "name": "Cartolas de movimientos",
+                    "name": "Otra prueba",
                     "icon": "",
-                    "url": "/gremios/cartolas",
+                    "url": "/no/hay/nada",
                 },
             ],
         },
