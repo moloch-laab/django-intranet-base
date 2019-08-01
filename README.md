@@ -29,11 +29,16 @@ Una vez realizado esto, deberá configurar la información de las credenciales d
 
 Y también sus credenciales de envío de correos electrónicos. 
 
-    EMAIL_USE_TLS = True
-    EMAIL_HOST = 'smtp.gmail.com'
-    EMAIL_HOST_USER = 'correo-ejemplo@hipodromochile.cl'
-    EMAIL_HOST_PASSWORD = 'pass'
-    EMAIL_PORT = 587
+    "EMAIL": {
+        "EMAIL_USE_TLS": true,
+        "EMAIL_HOST": "smtp.gmail.com",
+        "EMAIL_PORT": 587,
+        "EMAIL_BACKEND": "django.core.mail.backends.smtp.EmailBackend",
+        "EMAIL_HOST_USER": "my-mail@gmail.com",
+        "EMAIL_HOST_PASSWORD": "**************",
+        "DEFAULT_FROM_EMAIL": "my-mail@gmail.com",
+        "CONTACT_EMAIL": "my-mail@gmail.com"
+    }
 
 # Iniciando base de datos y proyecto.
 
