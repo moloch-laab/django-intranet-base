@@ -1,27 +1,17 @@
 # django_intranet_base
-Base para generar una intranet utilizando Django y AdminLTE
+Base para generar una intranet utilizando Django y AdminLTE 3
 
 # Instalación
 
-Clonar el repositorio del proyecto en la capeta deseada:
-    git clone https://github.com/moloch-laab/django_intranet_base
-
-Aseurarse de que se encuentra en la última versión.
-
-Crear un entorno virtual:
-
-    $ virtualenv venv --python=python3
+Al descargar el proyecto encontraremos un archivo llamado "requirements.txt" el cual contiene todas las dependencias Python para ejecutar el proyecto. 
 
 Ejecutamos lo siguiente: 
 
     $ pip install -r requirements.txt
 
-
 # Configuración.
 
-Configurar el entorno en el cual se encuentra la aplicación agregando al archivo .batch_profile la siguiente linea.
-
-    export DJANGO_SETTINGS_MODULE=django_intranet_base.settings.production
+Cree una copia del archivo "settings.example.json" con el nombre "settings.json".
 
 Una vez realizado esto, deberá configurar la información de las credenciales de su base de datos
 
