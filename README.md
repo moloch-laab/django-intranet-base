@@ -1,6 +1,8 @@
 # django_intranet_base
 Base para generar una intranet utilizando Django y AdminLTE 3
 
+Este proyecto es un fork de [djflow](https://github.com/kiubtech/djflow).
+
 # Instalación
 
 Al descargar el proyecto encontraremos un archivo llamado "requirements.txt" el cual contiene todas las dependencias Python para ejecutar el proyecto. 
@@ -55,3 +57,14 @@ y posteriormente generamos nuestro super usuario.
 Listo! Esto debe ser todo lo necesario para que tengan corriendo el proyecto en sus equipos locales: 
 
     $ python manage.py runserver
+    
+# Powered by Open Source Projects. 
+
+Agradecemos enormemente el esfuerzo de las comunidades que mantienen el desarrollo de los siguientes proyectos.
+
+- [Django Project](https://www.djangoproject.com)
+- [Django Solo](https://github.com/lazybird/django-solo)
+- [Pillow](https://github.com/python-pillow/Pillow)
+- [PostGreSQL](https://www.postgresql.org/)
+- [Psycopg2](https://github.com/psycopg/psycopg2)
+- [AdminLTE](https://adminlte.io/)
